@@ -6,6 +6,7 @@ import App from './components/App'
 import Counter from './components/Counter'
 import NotFound from './components/NotFound'
 import HelloWorld from './components/HelloWorld'
+import TimeLine from './components/TimeLine'
 
 export default class Routes extends Component {
     constructor() {
@@ -19,6 +20,7 @@ export default class Routes extends Component {
             <Router history={history}>
                 <Route path="/" component={App}>
                     <IndexRoute component={Counter}/>
+                    <Route path="timeline" component={TimeLine}/>
                     <Route path="hello-world" component={HelloWorld}/>
                 </Route>
                 <Route path="*" component={NotFound}/>
