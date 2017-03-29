@@ -1,6 +1,2 @@
-const config = {
-    strava_login_url: "http://www.strava.com/oauth/authorize?client_id=16520&response_type=code&redirect_uri=http://127.0.0.1:3000/timeline&approval_prompt=auto&scope=view_private",
-    api_url: "http://localhost:15000"
-}
-
-export default config
+export const strava_login_url = "http://www.strava.com/oauth/authorize?client_id=16520&response_type=code&redirect_uri=http://127.0.0.1:3000/login&approval_prompt=auto&scope=view_private"
+export const api_url = "http://localhost:15000"
