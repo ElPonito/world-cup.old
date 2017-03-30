@@ -6,7 +6,8 @@ const TimeLine = (props) => {
     if (!props.location.query.code) {
         browserHistory.push('/');
     }
-    StravaRepository.getToken(props.location.query.code).then(payload => {
+    StravaRepository.getToken(props.location.query.code).then(token => {
+        props.storeToken(token)
         browserHistory.push('timeline')
     })
 
