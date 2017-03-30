@@ -1,4 +1,5 @@
 import { strava_login_url } from '../../config/config'
+import { Link } from 'react-router'
 import './navbar.less'
 
 const Navbar = ({athlete, isAuthenticated}) => {
@@ -11,9 +12,11 @@ const Navbar = ({athlete, isAuthenticated}) => {
         }
         athleteInformation = (
             <div>
-                {athlete.firstname}&nbsp;{athlete.lastname}
-                <div style={ownStyle} className="avatar">
-                </div>
+                <Link to={'/hello-world'}>
+                    {athlete.firstname}&nbsp;{athlete.lastname}
+                    <div style={ownStyle} className="avatar">
+                    </div>
+                </Link>
             </div>
         )
     }
@@ -22,9 +25,11 @@ const Navbar = ({athlete, isAuthenticated}) => {
         <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
             {/*<a className="navbar-brand" href="#">World Cup</a>*/}
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                {!isAuthenticated && (<a href={strava_login_url}>
-                    <button className="btn btn-sm btn-outline-warning my-2 my-sm-0" type="submit">Connect</button>
-                </a>)}
+                {!isAuthenticated && (
+                    <a href={strava_login_url}>
+                        <button className="btn btn-sm btn-outline-warning my-2 my-sm-0" type="submit">Connect</button>
+                    </a>
+                )}
                 {athleteInformation}
             </div>
         </nav>
