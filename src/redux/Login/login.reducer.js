@@ -1,5 +1,6 @@
 const loginInitialState = {
-    token: undefined
+    token: null,
+    isAuthenticated: false
 }
 
 export default function loginReducer(state = loginInitialState, action) {
@@ -7,7 +8,9 @@ export default function loginReducer(state = loginInitialState, action) {
         case 'STORE_TOKEN':
             state = {
                 ...state,
-                token: action.token
+                token: action.token,
+                athlete: action.athlete,
+                isAuthenticated: true
             }
             break
 

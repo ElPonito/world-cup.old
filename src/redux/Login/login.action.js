@@ -1,6 +1,7 @@
-export const storeToken = (token) => {
+export const storeToken = (token, athlete) => {
     return ({
         type: 'STORE_TOKEN',
-        token
+        token,
+        athlete
     })
 }
