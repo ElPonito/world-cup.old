@@ -8,6 +8,7 @@ import NotFound from './components/NotFound'
 import HelloWorld from './components/HelloWorld'
 import TimeLine from './components/TimeLine'
 import Login from './components/Login'
+import Athlete from './components/Athlete'
 
 export default class Routes extends Component {
     constructor() {
@@ -22,6 +23,7 @@ export default class Routes extends Component {
                 <Route path="/" component={App}>
                     <IndexRoute component={Counter}/>
                     <Route path="login" component={Login}/>
+                    <Route path="athlete" component={Athlete}/>
                     <Route path="timeline" component={TimeLine}/>
                     <Route path="hello-world" component={HelloWorld}/>
                 </Route>

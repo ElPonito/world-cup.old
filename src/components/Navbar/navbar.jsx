@@ -12,7 +12,7 @@ const Navbar = ({athlete, isAuthenticated}) => {
         }
         athleteInformation = (
             <div>
-                <Link to={'/hello-world'}>
+                <Link to={'/athlete'}>
                     {athlete.firstname}&nbsp;{athlete.lastname}
                     <div style={ownStyle} className="avatar">
                     </div>

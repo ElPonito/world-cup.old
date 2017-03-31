@@ -4,7 +4,7 @@ import StravaRepository from '../../data/rest/StravaRepository'
 const TimeLine = (props) => {
 
     if (!props.location.query.code) {
-        browserHistory.push('/');
+        browserHistory.push('/')
     }
     StravaRepository.getToken(props.location.query.code).then(payload => {
         props.storeToken(payload.access_token, payload.athlete)
