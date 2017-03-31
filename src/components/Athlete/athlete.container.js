@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Athlete from './athlete.jsx'
+import Athlete from './Athlete.jsx'
 
 const mapStateToProps = (state) => {
     return {

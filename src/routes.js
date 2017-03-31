@@ -2,10 +2,10 @@ import { Component, PropTypes } from 'react'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import store from './redux/store'
+import requireAuthentication from './components/Athenticated'
 import App from './components/App'
 import Counter from './components/Counter'
 import NotFound from './components/NotFound'
-import HelloWorld from './components/HelloWorld'
 import TimeLine from './components/TimeLine'
 import Login from './components/Login'
 import Athlete from './components/Athlete'
@@ -23,9 +23,8 @@ export default class Routes extends Component {
                 <Route path="/" component={App}>
                     <IndexRoute component={Counter}/>
                     <Route path="login" component={Login}/>
-                    <Route path="athlete" component={Athlete}/>
-                    <Route path="timeline" component={TimeLine}/>
-                    <Route path="hello-world" component={HelloWorld}/>
+                    <Route path="athlete" component={requireAuthentication(Athlete)}/>
+                    <Route path="timeline" component={requireAuthentication(TimeLine)}/>
                 </Route>
                 <Route path="*" component={NotFound}/>
             </Router>

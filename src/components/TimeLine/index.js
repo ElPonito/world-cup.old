@@ -1,2 +1,2 @@
-import TimeLine from './timeLine.jsx'
+import TimeLine from './TimeLine.jsx'
 export default TimeLine
