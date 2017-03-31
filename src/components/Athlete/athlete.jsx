@@ -15,8 +15,20 @@ const Athlete = ({athlete, isAuthenticated}) => {
     return (
         <div>
             <div>
-                <h1>Bike</h1>
+                <h1>Bikes</h1>
                 {athleteBikes}
+                <h1>Palmarès</h1>
+                <div>
+                    <h2>World Cup Awards</h2>
+                    <div>
+                        <em>You currently haven't any awards</em>
+                    </div>
+
+                    <h2>Strava KOM</h2>
+                    <div>
+
+                    </div>
+                </div>
             </div>
         </div>
     )
