@@ -1,4 +1,4 @@
-const makeRequest = (method, url) => {
+const makeRequest = (method, url, params = null) => {
     return new Promise(function (resolve, reject) {
         const xhr = new XMLHttpRequest();
         xhr.open(method, url);
@@ -18,7 +18,7 @@ const makeRequest = (method, url) => {
                 statusText: xhr.statusText
             });
         };
-        xhr.send();
+        xhr.send(params);
     });
 }
 
@@ -26,12 +26,12 @@ const GET = (url) => {
     return makeRequest('GET', url)
 }
 
-const PUT = (url) => {
-    return makeRequest('PUT', url)
+const PUT = (url, params) => {
+    return makeRequest('PUT', url, params)
 }
 
-const POST = (url) => {
-    return makeRequest('POST', url)
+const POST = (url, params) => {
+    return makeRequest('POST', url, params)
 }
 
 export {
