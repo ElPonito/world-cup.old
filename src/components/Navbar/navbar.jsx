@@ -2,9 +2,12 @@ import { strava_login_url } from '../../config/config'
 import { Link } from 'react-router'
 import './navbar.less'
 
-const Navbar = ({athlete, isAuthenticated}) => {
+const Navbar = ({athlete, isAuthenticated, onClickProfile}) => {
 
     let athleteInformation
+    const clickProfile = () => {
+        onClickProfile(athlete.id)
+    }
 
     if (isAuthenticated) {
         const ownStyle = {
@@ -12,7 +15,7 @@ const Navbar = ({athlete, isAuthenticated}) => {
         }
         athleteInformation = (
             <div>
-                <Link to={'/athlete'}>
+                <Link to={'/athlete'} onClick={clickProfile}>
                     {athlete.firstname}&nbsp;{athlete.lastname}
                     <div style={ownStyle} className="avatar">
                     </div>
