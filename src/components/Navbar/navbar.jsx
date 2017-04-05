@@ -27,6 +27,7 @@ const Navbar = ({athlete, isAuthenticated, onClickProfile}) => {
     return (
         <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
             {/*<a className="navbar-brand" href="#">World Cup</a>*/}
+            <a href="/">Home</a>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 {!isAuthenticated && (
                     <a href={strava_login_url}>
