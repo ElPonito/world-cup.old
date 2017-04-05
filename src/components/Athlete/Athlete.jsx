@@ -1,10 +1,12 @@
 import { browserHistory } from 'react-router'
 import { Component } from 'react'
 import { Table } from 'reactstrap'
+import { secondsToHms } from '../../utils/dateAndTime'
 
 export default class Athlete extends Component {
 
     render() {
+
         const athleteBikes = this.props.athlete.bikes.map(bike => (
                 <div key={bike.id}>
                     Name: {bike.name}<br/>
@@ -17,7 +19,7 @@ export default class Athlete extends Component {
             <tr key={kom.id}>
                 <td>{kom.name}</td>
                 <td>{kom.start_date_local}</td>
-                <td>{kom.moving_time}</td>
+                <td>{secondsToHms(kom.moving_time)}</td>
             </tr>
         ))
 
