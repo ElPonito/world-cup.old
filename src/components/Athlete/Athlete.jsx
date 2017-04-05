@@ -1,5 +1,6 @@
 import { browserHistory } from 'react-router'
 import { Component } from 'react'
+import { Table } from 'reactstrap'
 
 export default class Athlete extends Component {
 
@@ -13,11 +14,11 @@ export default class Athlete extends Component {
         )
 
         const athleteKoms = this.props.koms.map(kom => (
-            <div key={kom.id}>
-                name: {kom.name}<br/>
-                date: {kom.start_date_local}<br/>
-                time: {kom.moving_time}
-            </div>
+            <tr key={kom.id}>
+                <td>{kom.name}</td>
+                <td>{kom.start_date_local}</td>
+                <td>{kom.moving_time}</td>
+            </tr>
         ))
 
         return (
@@ -34,7 +35,18 @@ export default class Athlete extends Component {
 
                         <h2>Strava KOM</h2>
                         <div>
-                            {athleteKoms}
+                            <Table>
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {athleteKoms}
+                                </tbody>
+                            </Table>
                         </div>
                     </div>
                 </div>
