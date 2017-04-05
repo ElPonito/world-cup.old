@@ -1,8 +1,9 @@
 import { strava_login_url } from '../../config/config'
 import { Link } from 'react-router'
 import './navbar.less'
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'
 
-const Navbar = ({athlete, isAuthenticated, onClickProfile}) => {
+const AppNavbar = ({athlete, isAuthenticated, onClickProfile}) => {
 
     let athleteInformation
     const clickProfile = () => {
@@ -16,7 +17,6 @@ const Navbar = ({athlete, isAuthenticated, onClickProfile}) => {
         athleteInformation = (
             <div>
                 <Link to={'/athlete'} onClick={clickProfile}>
-                    {athlete.firstname}&nbsp;{athlete.lastname}
                     <div style={ownStyle} className="avatar">
                     </div>
                 </Link>
@@ -25,19 +25,35 @@ const Navbar = ({athlete, isAuthenticated, onClickProfile}) => {
     }
 
     return (
-        <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
-            {/*<a className="navbar-brand" href="#">World Cup</a>*/}
-            <a href="/">Home</a>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                {!isAuthenticated && (
-                    <a href={strava_login_url}>
-                        <button className="btn btn-sm btn-outline-warning my-2 my-sm-0" type="submit">Connect</button>
-                    </a>
-                )}
-                {athleteInformation}
-            </div>
-        </nav>
+        <Navbar color="faded" light toggleable>
+            <NavbarToggler right onClick={null/*this.toggle*/}/>
+            <NavbarBrand>
+                <Link to={'/'}>
+                    World-Cup
+                </Link>
+            </NavbarBrand>
+            <Collapse isOpen={false/*this.state.isOpen*/} navbar>
+                <Nav className="ml-auto" navbar>
+                    <NavItem>
+                        <NavLink>
+                            <Link to={'/timeline'}>
+                                Timeline
+                            </Link>
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        {!isAuthenticated && (
+                            <a href={strava_login_url}>
+                                <button className="btn btn-sm btn-outline-warning my-2 my-sm-0" type="submit">Connect
+                                </button>
+                            </a>
+                        )}
+                        {athleteInformation}
+                    </NavItem>
+                </Nav>
+            </Collapse>
+        </Navbar>
     )
 }
 
-export default Navbar
+export default AppNavbar

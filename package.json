@@ -1,5 +1,5 @@
 {
-  "name": "react-redux-boilerplate",
+  "name": "world-cup",
   "version": "1.0.0",
   "description": "Minimalist \u001b[2~React Redux Application with Webpack 2 build",
   "main": "index.js",
@@ -19,9 +19,9 @@
   "author": "Cedric Guerin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ElPonito/react-redux-boilerplate/issues"
+    "url": "https://github.com/ElPonito/world-cup/issues"
   },
-  "homepage": "https://github.com/ElPonito/react-redux-boilerplate#readme",
+  "homepage": "https://github.com/ElPonito/world-cup#readme",
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
     "moment": "^2.18.1",

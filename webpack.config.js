@@ -62,5 +62,10 @@ module.exports = {
         new webpack.ProvidePlugin({
             React: 'react',
         })
-    ]
+    ],
+    resolve: {
+        alias: {
+            'react-redux': path.join(__dirname, '/node_modules/react-redux/dist/react-redux.min')
+        }
+    }
 }
