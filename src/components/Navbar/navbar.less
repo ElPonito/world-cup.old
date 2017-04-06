@@ -1,3 +1,7 @@
+.navbar {
+  padding: 0 1.5rem;
+}
+
 .avatar {
   align-items: center;
   display: inline-block;
@@ -9,4 +13,30 @@
   height: 40px;
   justify-content: center;
   width: 40px;
+}
+
+.dropdown-toggle {
+  &.btn-secondary {
+    background-color: transparent;
+    border: none;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.498039);
+    &.active {
+      background-color: transparent;
+      border: none;
+    }
+  }
+  &.btn-secondary:focus {
+    box-shadow: none;
+  }
+
+  &.btn-secondary:hover {
+    color: rgba(0, 0, 0, 0.701961);
+  }
+}
+
+a {
+  line-height: 2.3;
 }
