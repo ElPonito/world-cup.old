@@ -43,7 +43,7 @@ export default class AppNavbar extends Component {
                 </NavItem>
                 < NavItem >
                     <div>
-                        <Link to={'/athlete'} onClick={this.clickProfile}>
+                        <Link to={'/athlete'} onClick={this.clickProfile.bind(this)}>
                             <div style={{backgroundImage: `url(${this.props.athlete.profile_medium})`}}
                                  className="avatar">
                             </div>
