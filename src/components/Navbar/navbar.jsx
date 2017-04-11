@@ -30,9 +30,9 @@ export default class AppNavbar extends Component {
                             Races
                         </DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem><Link to={'/'}>Create race</Link></DropdownItem>
-                            <DropdownItem divider/>
-                            <DropdownItem>Another Action</DropdownItem>
+                            <Link to={'/create-race'} className="link">
+                                <DropdownItem>Create race</DropdownItem>
+                            </Link>
                         </DropdownMenu>
                     </ButtonDropdown>
                 </NavItem>

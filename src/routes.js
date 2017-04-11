@@ -9,6 +9,7 @@ import NotFound from './components/NotFound'
 import TimeLine from './components/TimeLine'
 import Login from './components/Login'
 import Athlete from './components/Athlete'
+import CreateRace from './components/CreateRace'
 
 export default class Routes extends Component {
     constructor() {
@@ -25,6 +26,7 @@ export default class Routes extends Component {
                     <Route path="login" component={Login}/>
                     <Route path="athlete" component={requireAuthentication(Athlete)}/>
                     <Route path="timeline" component={requireAuthentication(TimeLine)}/>
+                    <Route path="create-race" component={requireAuthentication(CreateRace)}/>
                 </Route>
                 <Route path="*" component={NotFound}/>
             </Router>

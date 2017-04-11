@@ -1,42 +1,60 @@
+@import "../../assets/style/colors";
+
 .navbar {
   padding: 0 1.5rem;
-}
 
-.avatar {
-  align-items: center;
-  display: inline-block;
-  background-color: rgba(255, 255, 255, .16);
-  background-size: contain;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  display: flex;
-  height: 40px;
-  justify-content: center;
-  width: 40px;
-}
+  .avatar {
+    align-items: center;
+    display: inline-block;
+    background-color: rgba(255, 255, 255, .16);
+    background-size: contain;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    width: 40px;
+  }
 
-.dropdown-toggle {
-  &.btn-secondary {
-    background-color: transparent;
-    border: none;
-    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    font-weight: normal;
-    color: rgba(0, 0, 0, 0.498039);
-    &.active {
+  .dropdown-toggle {
+    &.btn-secondary {
       background-color: transparent;
       border: none;
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      font-weight: normal;
+      color: @lightGrey;
+      &.active {
+        background-color: transparent;
+        border: none;
+      }
+    }
+    &.btn-secondary:focus {
+      box-shadow: none;
+    }
+
+    &.btn-secondary:hover {
+      color: @grey;
     }
   }
-  &.btn-secondary:focus {
-    box-shadow: none;
+
+  .dropdown-item {
+    color: @grey;
+    cursor: pointer;
   }
 
-  &.btn-secondary:hover {
-    color: rgba(0, 0, 0, 0.701961);
+  .dropdown-item:active, .dropdown-item:focus, .dropdown-item:hover {
+    background-color: transparent;
+    color: @black;
   }
+
+  button:focus {
+    outline: none;
+  }
+
+  a {
+    line-height: 2.3;
+  }
+
 }
 
-a {
-  line-height: 2.3;
-}

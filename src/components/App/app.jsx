@@ -6,7 +6,6 @@ const App = ({children}) => {
         <div className="container-fluid">
             <Navbar/>
             {children}
-
         </div>
     )
 }
