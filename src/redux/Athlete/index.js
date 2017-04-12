@@ -1,2 +1,2 @@
-import { fetchKoms } from './athlete.actions'
-export { fetchKoms }
+import { fetchKoms, fetchFriendsList } from './athlete.actions'
+export { fetchKoms, fetchFriendsList }

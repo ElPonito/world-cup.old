@@ -1,11 +1,14 @@
 import { Link } from 'react-router'
+import './app.less'
 import Navbar from '../Navbar'
 
 const App = ({children}) => {
     return (
         <div className="container-fluid">
             <Navbar/>
-            {children}
+            <div className="app-container">
+                {children}
+            </div>
         </div>
     )
 }

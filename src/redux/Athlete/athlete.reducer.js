@@ -1,5 +1,6 @@
 const athleteInitialState = {
-    koms: []
+    koms: [],
+    friends: []
 }
 
 export default function athleteReducer(state = athleteInitialState, action) {
@@ -10,6 +11,11 @@ export default function athleteReducer(state = athleteInitialState, action) {
                 koms: action.data
             }
             break
+        case 'FRIENDS_FETCHED':
+            state = {
+                ...state,
+                friends: action.data
+            }
     }
     return state
 }

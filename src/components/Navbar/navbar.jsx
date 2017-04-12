@@ -23,7 +23,7 @@ export default class AppNavbar extends Component {
                 <Collapse isOpen={false/*this.state.isOpen*/} navbar>
                     {
                         this.props.isAuthenticated &&
-                        <IsAuthenticatedNavBar athlete={this.props.athlete}/> ||
+                        <IsAuthenticatedNavBar athlete={this.props.athlete} token={this.props.token}/> ||
                         <IsNotAuthenticatedNavBar/>
                     }
                 </Collapse>

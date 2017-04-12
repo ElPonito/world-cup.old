@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap'
+import Table from '../../UiComponents/Table'
 
 export default class CreateRace extends Component {
 
@@ -9,11 +10,17 @@ export default class CreateRace extends Component {
     }
 
     handleChange(event) {
-        console.log(event.target.value)
         this.setState({[event.target.name]: event.target.value})
     }
 
     render() {
+        const friendsList = {
+            head: [
+                {content: ''}, {content: 'First Name'}, {content: 'Last Name'}
+            ],
+            body: this.props.athleteFriends
+        }
+
         return (
             <div>
                 <h1>Create Race</h1>
@@ -38,6 +45,7 @@ export default class CreateRace extends Component {
                     <Col md={9}>
                         <h2>Choose your segments</h2>
                         <h2>Invite friends</h2>
+                        <Table head={friendsList.head} body={friendsList.body}/>
                     </Col>
                 </Row>
             </div>

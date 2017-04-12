@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import { Link } from 'react-router'
 import { Nav, NavItem, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import Avatar from '../../../UiComponents/Avatar'
 
 export default class isAuthenticatedNavBar extends Component {
     constructor() {
@@ -23,7 +24,7 @@ export default class isAuthenticatedNavBar extends Component {
                             Races
                         </DropdownToggle>
                         <DropdownMenu>
-                            <Link to={'/create-race'} className="link">
+                            <Link to={'/create-race'} className="link" onClick={this.props.onClickCreateRace}>
                                 <DropdownItem>Create race</DropdownItem>
                             </Link>
                         </DropdownMenu>
@@ -37,9 +38,7 @@ export default class isAuthenticatedNavBar extends Component {
                 < NavItem >
                     <div>
                         <Link to={'/athlete'} onClick={this.props.onClickProfile}>
-                            <div style={{backgroundImage: `url(${this.props.athlete.profile_medium})`}}
-                                 className="avatar">
-                            </div>
+                            <Avatar url={this.props.athlete.profile_medium}/>
                         </Link>
                     </div>
                 </NavItem>
