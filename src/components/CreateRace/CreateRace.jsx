@@ -31,12 +31,12 @@ export default class CreateRace extends Component {
                             <FormGroup>
                                 <Label for="race-name">Race Name</Label>
                                 <Input type="text" name="race-name" id="race-name" placeholder="Race Name"
-                                       onChange={this.handleChange}/>
+                                       onChange={this.handleChange} size="sm"/>
                             </FormGroup>
                             <FormGroup>
                                 <Label for="race-date">Race Name</Label>
                                 <Input type="date" name="race-date" id="race-date" placeholder="Race Date"
-                                       onChange={this.handleChange}/>
+                                       onChange={this.handleChange} size="sm"/>
                             </FormGroup>
                             <Button>Submit</Button>
                         </Form>
