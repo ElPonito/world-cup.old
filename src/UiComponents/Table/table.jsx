@@ -1,36 +1,40 @@
 import React from 'react'
-import { Table } from 'reactstrap'
+import { Table, Input } from 'reactstrap'
+import './table.less'
 
-const table = ({head, body}) => {
+const table = ({config, data, checkbox, handleSelect}) => {
 
-    const createHead = (head) => {
-        const tableHead = head.map((cell, index) => {
-            return (
-                <th key={index}>{cell.content}</th>
+    const createHead = (config) => {
+        const tableHead = Object.keys(config).map(key => (
+            <th key={key}>{config[key]}</th>
             )
-        })
+        )
+
         return (
             <thead>
             <tr>
+                {checkbox ? <th></th> : null}
                 {tableHead}
             </tr>
             </thead>
         )
     }
 
-    const createBody = (body) => {
-        const tableBody = body.map((row, index) => {
-            const tableRow = row.map((cell, index) => {
-                return (
-                    <td key={index}>{cell.content}</td>
-                )
-            })
+    const createBody = (config, data) => {
+        const tableBody = data.map((row, index) => {
+            const tableRow = Object.keys(config).map((key, index) => (
+                <td key={row.id ? `${row.id}-${key}` : index}>{row[key]}</td>
+            ))
             return (
-                <tr key={index}>
+                <tr key={row.id ? `${row.id}` : index}>
+                    {checkbox ?
+                        <td><Input type="checkbox" name="checkbox" onClick={event => handleSelect(event, row)}/>
+                        </td> : null}
                     {tableRow}
                 </tr>
             )
         })
+
         return (
             <tbody>
             {tableBody}
@@ -40,8 +44,8 @@ const table = ({head, body}) => {
 
     return (
         <Table>
-            {createHead(head)}
-            {createBody(body)}
+            {createHead(config)}
+            {createBody(config, data)}
         </Table>
     )
 
