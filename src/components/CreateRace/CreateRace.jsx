@@ -41,6 +41,12 @@ export default class CreateRace extends Component {
             }, data: this.props.athleteFriends
         }
 
+        const segmentsListTableData = {
+            config: {
+                name: 'Segment Name'
+            }, data: this.props.athleteStarredSegments
+        }
+
         return (
             <div>
                 <h1>Create Race</h1>
@@ -55,7 +61,7 @@ export default class CreateRace extends Component {
                                        onChange={this.handleChange} size="sm"/>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="race-date">Race Name</Label>
+                                <Label for="race-date">Race Date</Label>
                                 <Input type="date" name="raceDate" id="raceDate" placeholder="Race Date"
                                        value={moment(this.state.raceDate).format('YYYY-MM-DD')}
                                        onChange={this.handleChange} size="sm"/>
@@ -66,6 +72,8 @@ export default class CreateRace extends Component {
 
                     <Col md={9}>
                         <h2>Choose your segments</h2>
+                        <Table config={segmentsListTableData.config } data={segmentsListTableData.data}
+                               checkbox={true}/>
                         <h2>Invite friends</h2>
                         <Table config={friendsListTableData.config } data={friendsListTableData.data} checkbox={true}
                                handleSelect={this.handleSelect.bind(this)}/>

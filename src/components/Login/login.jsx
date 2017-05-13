@@ -1,12 +1,12 @@
 import { browserHistory } from 'react-router'
-import StravaRepository from '../../data/rest/StravaRepository'
+import Strava from '../../data/rest/Strava'
 
 const Login = (props) => {
 
     if (!props.location.query.code) {
         browserHistory.push('/')
     }
-    StravaRepository.getToken(props.location.query.code).then(payload => {
+    Strava.getToken(props.location.query.code).then(payload => {
         props.storeToken(payload.accessToken, payload.athlete)
         browserHistory.push('timeline')
     })

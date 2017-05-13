@@ -1,23 +1,34 @@
-import Athlete from '../../data/entities/Athlete'
+import Athlete from '../../data/rest/Athlete'
 
-export const fetchKoms = (athleteId) => dispatch => {
+export const fetchKoms = athleteId => dispatch => {
     Athlete.fetchKoms(athleteId).then((koms) => {
         dispatch(komsFetched(koms))
     })
 }
 
-export const fetchFriendsList = (token) => dispatch => {
+export const fetchFriendsList = token => dispatch => {
     Athlete.fetchFriendsList(token).then(friends => {
         dispatch(friendsFetched(friends))
     })
 }
 
-export const komsFetched = (koms) => ({
+export const fetchStarredSegments = token => dispatch => {
+    Athlete.fetchStarredSegments(token).then(segments => {
+        dispatch(starredSementsFetched(segments))
+    })
+}
+
+export const komsFetched = koms => ({
     type: 'KOMS_FETCHED',
     data: koms
 })
 
-export const friendsFetched = (friends) => ({
+export const friendsFetched = friends => ({
     type: 'FRIENDS_FETCHED',
     data: friends
+})
+
+export const starredSementsFetched = segments => ({
+    type: 'STARRED_SEGMENTS_FETCHED',
+    data: segments
 })
