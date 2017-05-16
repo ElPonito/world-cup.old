@@ -12,7 +12,8 @@ export default class CreateRace extends Component {
         this.state = {
             raceName: '',
             raceDate: new Date(),
-            raceAthletes: []
+            raceAthletes: [],
+            raceSegments: []
         }
     }
 
@@ -20,7 +21,7 @@ export default class CreateRace extends Component {
         this.setState({[event.target.name]: event.target.value})
     }
 
-    handleSelect(event, data) {
+    handleAthletesSelect(event, data) {
         const raceAthletes = this.state.raceAthletes
         if (event.target.checked) {
             raceAthletes.push(data)
@@ -30,6 +31,22 @@ export default class CreateRace extends Component {
                 raceAthletes: _.without(raceAthletes, data)
             })
         }
+    }
+
+    handleSegmentsSelect(event, data) {
+        const raceSegments = this.state.raceSegments
+        if (event.target.checked) {
+            raceSegments.push(data)
+            this.setState({raceSegments})
+        } else {
+            this.setState({
+                raceAthletes: _.without(raceSegments, data)
+            })
+        }
+    }
+
+    createRace() {
+        console.log(this.state)
     }
 
     render() {
@@ -66,17 +83,17 @@ export default class CreateRace extends Component {
                                        value={moment(this.state.raceDate).format('YYYY-MM-DD')}
                                        onChange={this.handleChange} size="sm"/>
                             </FormGroup>
-                            <Button>Submit</Button>
+                            <Button color="primary" onClick={this.createRace.bind(this)}>Create Race!</Button>
                         </Form>
                     </Col>
 
                     <Col md={9}>
                         <h2>Choose your segments</h2>
                         <Table config={segmentsListTableData.config } data={segmentsListTableData.data}
-                               checkbox={true}/>
+                               checkbox={true} handleSelect={this.handleSegmentsSelect.bind(this)}/>
                         <h2>Invite friends</h2>
                         <Table config={friendsListTableData.config } data={friendsListTableData.data} checkbox={true}
-                               handleSelect={this.handleSelect.bind(this)}/>
+                               handleSelect={this.handleAthletesSelect.bind(this)}/>
                     </Col>
                 </Row>
             </div>
