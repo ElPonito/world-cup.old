@@ -1,2 +1,2 @@
-import { createRace } from './createRace.action'
-export { createRace }
+import { createRace, fetchCreateRaceData } from './createRace.action'
+export { createRace, fetchCreateRaceData }

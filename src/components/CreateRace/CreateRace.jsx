@@ -46,7 +46,7 @@ export default class CreateRace extends Component {
     }
 
     createRace() {
-        console.log(this.state)
+        this.props.saveRace(this.state)
     }
 
     render() {

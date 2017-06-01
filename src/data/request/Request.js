@@ -1,37 +1,41 @@
-const makeRequest = (method, url, params = null) => {
-    return new Promise(function (resolve, reject) {
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        xhr.onload = function () {
-            if (this.status >= 200 && this.status < 300) {
-                resolve(xhr.response);
+const makeRequest = (url, body, method = 'GET', headers) =>
+    new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+
+        xhr.open(method, url)
+
+        if (headers) {
+            Object.entries(headers).map(([key, value]) => {
+                xhr.setRequestHeader(key, value)
+            })
+        }
+
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                resolve(xhr.response)
             } else {
-                reject({
-                    status: this.status,
-                    statusText: xhr.statusText
-                });
+                reject(xhr.statusText)
             }
-        };
-        xhr.onerror = function () {
-            reject({
-                status: this.status,
-                statusText: xhr.statusText
-            });
-        };
-        xhr.send(params);
-    });
-}
+        }
+
+        xhr.onerror = () => reject(xhr.statusText)
+        xhr.send(body)
+    })
 
 const GET = (url) => {
-    return makeRequest('GET', url)
+    return makeRequest(url)
 }
 
 const PUT = (url, params) => {
-    return makeRequest('PUT', url, params)
+    return makeRequest(url, params, 'PUT')
 }
 
 const POST = (url, params) => {
-    return makeRequest('POST', url, params)
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    return makeRequest(url, params, 'POST', headers)
 }
 
 export {

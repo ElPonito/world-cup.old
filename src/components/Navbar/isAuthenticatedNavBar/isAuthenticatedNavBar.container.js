@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import IsAuthenticatedNavBar from './isAuthenticatedNavBar.jsx'
 import { fetchKoms } from '../../../redux/Athlete'
-import { createRace } from '../../../redux/CreateRace'
+import { fetchCreateRaceData } from '../../../redux/CreateRace'
 
 const mapDispatchToProps = (dispatch, {athlete, token}) => {
     return {
@@ -9,7 +9,7 @@ const mapDispatchToProps = (dispatch, {athlete, token}) => {
             dispatch(fetchKoms(athlete.id))
         },
         onClickCreateRace: () => {
-            dispatch(createRace(token))
+            dispatch(fetchCreateRaceData(token))
         }
     }
 }
