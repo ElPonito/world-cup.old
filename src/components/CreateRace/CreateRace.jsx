@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap'
+import { Button, Form, FormGroup, Label, Input, Row, Col, FormFeedback } from 'reactstrap'
 import * as _ from 'lodash'
 import moment from 'moment'
 import Table from '../../UiComponents/Table'
@@ -13,7 +13,11 @@ export default class CreateRace extends Component {
             raceName: '',
             raceDate: new Date(),
             raceAthletes: [],
-            raceSegments: []
+            raceSegments: [],
+            formValid: {
+                raceName: true,
+                raceDate: true
+            }
         }
     }
 
@@ -46,7 +50,17 @@ export default class CreateRace extends Component {
     }
 
     createRace() {
-        this.props.saveRace(this.state)
+        if (this.isFormValid()) {
+            this.props.saveRace(this.state)
+        }
+    }
+
+    isFormValid() {
+        const formValid = {}
+        Object.keys(this.state.formValid).forEach(formKey => {
+            formValid[formKey] = !!this.state[formKey]
+        })
+        this.setState({formValid})
     }
 
     render() {
@@ -71,17 +85,20 @@ export default class CreateRace extends Component {
                     <Col md={3}>
                         <h2>Race Information</h2>
                         <Form>
-                            <FormGroup>
+                            <FormGroup color={!this.state.formValid.raceName && 'danger'}>
                                 <Label for="race-name">Race Name</Label>
                                 <Input type="text" name="raceName" id="raceName" placeholder="Race Name"
                                        value={this.state.raceName}
                                        onChange={this.handleChange} size="sm"/>
+                                {!this.state.formValid.raceName && <FormFeedback>Race name is required!</FormFeedback>}
                             </FormGroup>
-                            <FormGroup>
+                            <FormGroup color={!this.state.formValid.raceDate && 'danger'}>
                                 <Label for="race-date">Race Date</Label>
+                                {/*<Flatpickr/>*/}
                                 <Input type="date" name="raceDate" id="raceDate" placeholder="Race Date"
                                        value={moment(this.state.raceDate).format('YYYY-MM-DD')}
                                        onChange={this.handleChange} size="sm"/>
+                                {!this.state.formValid.raceDate && <FormFeedback>Race date is required!</FormFeedback>}
                             </FormGroup>
                             <Button color="primary" onClick={this.createRace.bind(this)}>Create Race!</Button>
                         </Form>
