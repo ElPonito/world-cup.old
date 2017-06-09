@@ -1,8 +1,10 @@
 import { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Row, Col, FormFeedback } from 'reactstrap'
 import * as _ from 'lodash'
-import moment from 'moment'
+import Flatpickr from 'react-flatpickr'
 import Table from '../../UiComponents/Table'
+import './CreateRace.less'
+import '../../vendor/font-awesome/less/font-awesome.less'
 
 export default class CreateRace extends Component {
 
@@ -11,12 +13,11 @@ export default class CreateRace extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.state = {
             raceName: '',
-            raceDate: new Date(),
+            raceDate: new Date().toISOString(),
             raceAthletes: [],
             raceSegments: [],
             formValid: {
-                raceName: true,
-                raceDate: true
+                raceName: true
             }
         }
     }
@@ -25,10 +26,14 @@ export default class CreateRace extends Component {
         this.setState({[event.target.name]: event.target.value})
     }
 
-    handleAthletesSelect(event, data) {
+    onDatePickerChange = newDate => {
+        this.setState({raceDate: new Date(newDate).toISOString()})
+    }
+
+    handleAthletesSelect(event, athlete) {
         const raceAthletes = this.state.raceAthletes
         if (event.target.checked) {
-            raceAthletes.push(data)
+            raceAthletes.push(athlete.id)
             this.setState({raceAthletes})
         } else {
             this.setState({
@@ -37,10 +42,10 @@ export default class CreateRace extends Component {
         }
     }
 
-    handleSegmentsSelect(event, data) {
+    handleSegmentsSelect(event, segment) {
         const raceSegments = this.state.raceSegments
         if (event.target.checked) {
-            raceSegments.push(data)
+            raceSegments.push(segment.id)
             this.setState({raceSegments})
         } else {
             this.setState({
@@ -57,10 +62,13 @@ export default class CreateRace extends Component {
 
     isFormValid() {
         const formValid = {}
+        let isValid = true
         Object.keys(this.state.formValid).forEach(formKey => {
             formValid[formKey] = !!this.state[formKey]
+            isValid = !!this.state[formKey] || isValid
         })
         this.setState({formValid})
+        return isValid
     }
 
     render() {
@@ -93,12 +101,11 @@ export default class CreateRace extends Component {
                                 {!this.state.formValid.raceName && <FormFeedback>Race name is required!</FormFeedback>}
                             </FormGroup>
                             <FormGroup color={!this.state.formValid.raceDate && 'danger'}>
-                                <Label for="race-date">Race Date</Label>
-                                {/*<Flatpickr/>*/}
-                                <Input type="date" name="raceDate" id="raceDate" placeholder="Race Date"
-                                       value={moment(this.state.raceDate).format('YYYY-MM-DD')}
-                                       onChange={this.handleChange} size="sm"/>
-                                {!this.state.formValid.raceDate && <FormFeedback>Race date is required!</FormFeedback>}
+                                <Label for="race-date">Race Date</Label><br/>
+                                <Flatpickr options={{
+                                    defaultDate: this.state.raceDate,
+                                    onChange: this.onDatePickerChange
+                                }}/>
                             </FormGroup>
                             <Button color="primary" onClick={this.createRace.bind(this)}>Create Race!</Button>
                         </Form>

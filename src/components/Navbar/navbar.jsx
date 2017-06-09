@@ -17,7 +17,7 @@ export default class AppNavbar extends Component {
                 <NavbarToggler right onClick={null/*this.toggle*/}/>
                 <NavbarBrand>
                     <Link to={'/'}>
-                        World-Cup
+                        <i className="fa fa-trophy" aria-hidden="true"/>&nbsp;World-Cup
                     </Link>
                 </NavbarBrand>
                 <Collapse isOpen={false/*this.state.isOpen*/} navbar>

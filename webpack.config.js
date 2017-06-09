@@ -46,6 +46,18 @@ module.exports = {
                 test: /\.less$/,
                 loader: ['style-loader', 'css-loader', 'less-loader']
             },
+            {
+                test: /\.woff(2)?(\?[a-z0-9#=&.]+)?$/,
+                loader: 'file-loader?name=[name].[ext]'
+            },
+            {
+                test: /\.(ttf|eot)(\?[a-z0-9#=&.]+)?$/,
+                loader: 'file-loader?name=[name].[ext]'
+            },
+            {
+                test: /\.svg/,
+                loader: 'file-loader?name=[name].[ext]'
+            }
         ]
     },
     plugins: [

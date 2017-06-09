@@ -5,7 +5,8 @@ import { render } from 'react-dom'
 import Routes from './routes'
 import store from './redux/store'
 import './assets/style/index.less'
-import 'flatpickr/dist/themes/material_blue.css'
+import './vendor/font-awesome/less/font-awesome.less'
+import './assets/style/component/flatPickr.less'
 
 render(
     <Provider store={store}>
