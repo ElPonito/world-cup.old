@@ -35,10 +35,6 @@ module.exports = {
                 include: path.join(__dirname, 'src')
             },
             {
-                test: /\.png/,
-                loader: 'file-loader?name=[name].[ext]'
-            },
-            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },
@@ -51,11 +47,7 @@ module.exports = {
                 loader: 'file-loader?name=[name].[ext]'
             },
             {
-                test: /\.(ttf|eot)(\?[a-z0-9#=&.]+)?$/,
-                loader: 'file-loader?name=[name].[ext]'
-            },
-            {
-                test: /\.svg/,
+                test: /\.(ttf|eot|svg|png|woff)(\?[a-z0-9#=&.]+)?$/,
                 loader: 'file-loader?name=[name].[ext]'
             }
         ]
