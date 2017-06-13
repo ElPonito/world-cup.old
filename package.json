@@ -1,12 +1,12 @@
 {
   "name": "world-cup",
   "version": "1.0.0",
-  "description": "Minimalist \u001b[2~React Redux Application with Webpack 2 build",
+  "description": "WorldCup Application",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=dev webpack-dev-server",
-    "start:prod": "cross-env NODE_ENV=production webpack-dev-server",
-    "build": "rimraf dist && webpack --progress --profile --colors"
+    "start:prod": "cross-env NODE_ENV=production node server.js",
+    "build": "rimraf dist && cross-env NODE_ENV=production webpack"
   },
   "repository": {
     "type": "git",

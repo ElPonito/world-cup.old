@@ -5,15 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     devtool: 'eval-source-map',
     entry: [
-        // bundle the client for webpack-dev-server
-        // and connect to the provided endpoint
-        'webpack-dev-server/client?http://localhost:3333',
-
-        // bundle the client for hot reloading
-        // only- means to only hot reload for successful updates
-        'webpack/hot/only-dev-server',
-
-        // the entry point of our app
         path.join(__dirname, 'src/index.js')
     ],
     output: {
