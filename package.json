@@ -4,7 +4,8 @@
   "description": "Minimalist \u001b[2~React Redux Application with Webpack 2 build",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "cross-env NODE_ENV=dev webpack-dev-server",
+    "start:prod": "cross-env NODE_ENV=production webpack-dev-server",
     "build": "rimraf dist && webpack --progress --profile --colors"
   },
   "repository": {
@@ -46,6 +47,7 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-2": "^6.18.0",
+    "cross-env": "^5.0.1",
     "css-loader": "^0.25.0",
     "file-loader": "^0.10.1",
     "html-webpack-plugin": "^2.24.1",

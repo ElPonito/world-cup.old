@@ -58,7 +58,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src/index.tpl.html'),
             filename: 'index.html',
-            inject: 'body'
+            inject: 'body',
+            environment: process.env.NODE_ENV
         }),
         new webpack.HotModuleReplacementPlugin(),
 
