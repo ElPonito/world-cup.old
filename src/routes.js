@@ -4,7 +4,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import store from './redux/store'
 import requireAuthentication from './components/Athenticated'
 import App from './components/App'
-import Counter from './components/Counter'
+import Home from './components/Home'
 import NotFound from './components/NotFound'
 import TimeLine from './components/TimeLine'
 import Login from './components/Login'
@@ -22,7 +22,7 @@ export default class Routes extends Component {
         return (
             <Router history={history}>
                 <Route path="/" component={App}>
-                    <IndexRoute component={Counter}/>
+                    <IndexRoute component={Home}/>
                     <Route path="login" component={Login}/>
                     <Route path="athlete" component={requireAuthentication(Athlete)}/>
                     <Route path="timeline" component={requireAuthentication(TimeLine)}/>
