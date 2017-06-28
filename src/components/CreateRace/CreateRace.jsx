@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Row, Col, FormFeedback } from 'reactstrap'
+import { Button, Col, Form, FormFeedback, FormGroup, Input, Label, Row } from 'reactstrap'
 import * as _ from 'lodash'
 import Flatpickr from 'react-flatpickr'
 import Table from '../../UiComponents/Table'
@@ -56,7 +56,7 @@ export default class CreateRace extends Component {
 
     createRace() {
         if (this.isFormValid()) {
-            this.props.saveRace(this.state)
+            this.props.saveRace({...this.state, raceOwner: this.props.athlete.id, token: this.props.token})
         }
     }
 
