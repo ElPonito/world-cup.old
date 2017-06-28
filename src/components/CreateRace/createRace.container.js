@@ -7,6 +7,7 @@ import SegmentsListToDisplay from '../../data/Cooked/Segment/SegmentsListToDispl
 const mapStateToProps = state => {
     return {
         athlete: state.loginReducer.athlete,
+        token: state.loginReducer.token,
         athleteFriends: new FriendListToDisplay(state.athleteReducer.friends).listToTableDisplay(),
         athleteStarredSegments: new SegmentsListToDisplay(state.athleteReducer.starredSegments).list
     }
