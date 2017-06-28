@@ -4,7 +4,8 @@
   "description": "WorldCup Application",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=dev webpack-dev-server",
+    "start": "cross-env NODE_ENV=local webpack-dev-server",
+    "start:dev": "cross-env NODE_ENV=dev webpack-dev-server",
     "start:prod": "cross-env NODE_ENV=production node server.js",
     "build": "rimraf dist && cross-env NODE_ENV=production webpack"
   },
