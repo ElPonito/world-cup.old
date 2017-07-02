@@ -8,13 +8,13 @@ import '../../vendor/font-awesome/less/font-awesome.less'
 
 export default class CreateRace extends Component {
 
-    constructor() {
+    constructor(props) {
         super()
         this.handleChange = this.handleChange.bind(this)
         this.state = {
             raceName: '',
             raceDate: new Date().toISOString(),
-            raceAthletes: [],
+            raceAthletes: [props.athlete.id],
             raceSegments: [],
             formValid: {
                 raceName: true
