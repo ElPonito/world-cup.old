@@ -1,3 +1,3 @@
-import { storeToken } from './login.action'
+import { storeToken, storeTokenInDb } from './login.action'
 import loginReducer from './login.reducer'
-export { storeToken, loginReducer }
+export { storeToken, loginReducer, storeTokenInDb }

@@ -1,4 +1,4 @@
-import { GET } from '../request/Request'
+import { GET, POST } from '../request/Request'
 import config from '../../config'
 
 export const fetchKoms = (athleteId) => {
@@ -13,4 +13,10 @@ export const fetchStarredSegments = token => {
     return GET(`${config.api_url}/athlete-starred-segment/${token}`).then(segments => JSON.parse(segments))
 }
 
-export default {fetchKoms, fetchFriendsList, fetchStarredSegments}
+export const storeToken = (token, athleteId) => {
+    const header = {Authorization: token}
+    const body = JSON.stringify({athleteId})
+    return POST(`${config.api_url}/store-token`, body, header)
+}
+
+export default {fetchKoms, fetchFriendsList, fetchStarredSegments, storeToken}
