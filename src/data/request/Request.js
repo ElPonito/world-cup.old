@@ -30,12 +30,13 @@ const PUT = (url, params) => {
     return makeRequest(url, params, 'PUT')
 }
 
-const POST = (url, params) => {
-    const headers = {
+const POST = (url, params, headers) => {
+    const localHeaders = {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...headers
     }
-    return makeRequest(url, params, 'POST', headers)
+    return makeRequest(url, params, 'POST', localHeaders)
 }
 
 export {

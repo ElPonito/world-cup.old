@@ -7,7 +7,10 @@ const Login = (props) => {
         browserHistory.push('/')
     }
     Strava.getToken(props.location.query.code).then(payload => {
-        props.storeToken(payload.accessToken, payload.athlete)
+        const token = payload.accessToken
+        const athlete = payload.athlete
+        props.storeToken(token, athlete)
+        props.storeTokenInDb(token, athlete.id)
         browserHistory.push('timeline')
     })
 
