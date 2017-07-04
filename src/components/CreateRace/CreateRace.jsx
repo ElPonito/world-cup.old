@@ -4,6 +4,7 @@ import * as _ from 'lodash'
 import Flatpickr from 'react-flatpickr'
 import Table from '../../UiComponents/Table'
 import './CreateRace.less'
+import { createStringDateFromDateObject } from '../../utils/dateAndTime'
 import '../../vendor/font-awesome/less/font-awesome.less'
 
 export default class CreateRace extends Component {
@@ -14,6 +15,7 @@ export default class CreateRace extends Component {
         this.state = {
             raceName: '',
             raceDate: new Date().toISOString(),
+            stringDate: createStringDateFromDateObject(new Date()),
             raceAthletes: [props.athlete.id],
             raceSegments: [],
             formValid: {
@@ -27,7 +29,8 @@ export default class CreateRace extends Component {
     }
 
     onDatePickerChange = newDate => {
-        this.setState({raceDate: new Date(newDate).toISOString()})
+        const stringDate = createStringDateFromDateObject(newDate)
+        this.setState({raceDate: new Date(newDate).toISOString(), stringDate})
     }
 
     handleAthletesSelect(event, athlete) {
