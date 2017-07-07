@@ -1,0 +1,26 @@
+{
+  "name": "world-cup-api",
+  "version": "1.0.0",
+  "description": "Api for world-cup application",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=dev node src/index.js",
+    "start:local": "cross-env NODE_ENV=local nodemon src/index.js",
+    "start:dev": "cross-env NODE_ENV=dev node src/index.js 15001",
+    "start:prod": "cross-env NODE_ENV=production node src/index.js"
+  },
+  "author": "Cedric Guerin",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cross-env": "^5.0.1",
+    "express": "^4.15.2",
+    "lodash": "^4.17.4",
+    "mongo-sanitize": "^1.0.0",
+    "mongodb": "^2.2.26",
+    "nodemon": "^1.11.0",
+    "path": "^0.12.7",
+    "request-promise": "^4.2.1",
+    "strava-v3": "^1.12.1"
+  }
+}
