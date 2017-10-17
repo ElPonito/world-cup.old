@@ -4,6 +4,14 @@
   "description": "Create races based on strava segments",
   "main": "index.js",
   "scripts": {
+    "start:api-local": "cd backs/api && npm run start:local",
+    "start:api-dev": "cd backs/api && npm run start",
+    "start:api-prod": "cd backs/api && npm run start:prod",
+    "start:front-local": "cd UI && npm run start",
+    "start:front-dev": "cd UI && start:dev",
+    "start:front-prod": "cd UI && npm run start:prod",
+    "test:api": "cd backs/api && npm test",
+    "test:api-watch": "cd backs/api && npm run test:watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
