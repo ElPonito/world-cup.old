@@ -1,15 +1,25 @@
 # world-cup
 World cup is an application that permit users to create races based on Strava segments
 
-# Getting Started
-## UI
+## Getting Started
+### Global
 
-cd ./UI && npm i && npm start
+npm i
+
+### UI
+
+npm run start:front-local
+
+or
+
+if you want to use api from dev server
+
+npm run start:front-dev
 
 Access on localhost:3333
 
-## API
+### API
 
-cd ./backs/api && npm i && npm run start:local
+npm run start:api-local
 
 Access on localhost:15000
