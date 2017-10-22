@@ -8,7 +8,7 @@
     "install:api": "cd world-cup-api && npm i",
     "install:app": "cd world-cup-app && npm i",
     "start:api-local": "cd world-cup-api && npm run start:local",
-    "start:api-dev": "cd world-cup-api && npm run start",
+    "start:api-dev": "cd world-cup-api && npm run start:dev",
     "start:api-prod": "cd world-cup-api && npm run start:prod",
     "start:front-local": "cd world-cup-app && npm run start",
     "start:front-dev": "cd world-cup-app && npm run start:dev",
