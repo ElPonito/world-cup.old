@@ -1,5 +1,4 @@
 const strava = require('strava-v3')
-const RaceDataProcessor = require('./data/dataProcessors/RaceDataProcessor')
 
 module.exports = {
     createWorldCupApiRoutes: (app, raceDataProcessor, webhookEventsDataProcessor, sessionDao) => {
