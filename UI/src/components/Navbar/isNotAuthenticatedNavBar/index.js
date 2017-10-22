@@ -1,2 +1,0 @@
-import IsNotAuthenticatedNavBar from './isNotAuthenticatedNavBar.jsx'
-export default IsNotAuthenticatedNavBar

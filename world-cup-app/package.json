@@ -1,0 +1,63 @@
+{
+  "name": "world-cup",
+  "version": "1.0.0",
+  "description": "WorldCup Application",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=local webpack-dev-server",
+    "start:dev": "cross-env NODE_ENV=dev webpack-dev-server",
+    "start:prod": "cross-env NODE_ENV=production node server.js",
+    "build": "rimraf dist && cross-env NODE_ENV=production webpack",
+    "test": "echo world-cup-app test!"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElPonito/react-redux-boilerplate.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "webpack 2"
+  ],
+  "author": "Cedric Guerin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ElPonito/world-cup/issues"
+  },
+  "homepage": "https://github.com/ElPonito/world-cup#readme",
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-addons-transition-group": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-flatpickr": "^3.4.0",
+    "react-redux": "^4.4.6",
+    "react-router": "^3.0.2",
+    "react-router-redux": "^4.0.8",
+    "reactstrap": "^4.5.0",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "cross-env": "^5.0.1",
+    "css-loader": "^0.25.0",
+    "file-loader": "^0.10.1",
+    "html-webpack-plugin": "^2.24.1",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.2",
+    "rimraf": "^2.5.4",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
+  }
+}
