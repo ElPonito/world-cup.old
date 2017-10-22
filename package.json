@@ -4,7 +4,7 @@
   "description": "Create races based on strava segments",
   "main": "index.js",
   "scripts": {
-    "install": "npm-run-all --parallel install:*",
+    "postinstall": "npm-run-all --parallel install:*",
     "install:api": "cd world-cup-api && npm i",
     "install:app": "cd world-cup-app && npm i",
     "start:api-local": "cd world-cup-api && npm run start:local",
