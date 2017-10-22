@@ -6,14 +6,6 @@ export default class Athlete extends Component {
 
     render() {
 
-        const athleteBikes = this.props.athlete.bikes.map(bike => (
-                <div key={bike.id}>
-                    Name: {bike.name}<br/>
-                    Distance: {Math.trunc(bike.distance / 1000)}
-                </div>
-            )
-        )
-
         const athleteKoms = this.props.koms.map(kom => (
             <tr key={kom.id}>
                 <td>{kom.name}</td>
@@ -25,8 +17,6 @@ export default class Athlete extends Component {
         return (
             <div>
                 <div>
-                    <h1>Bikes</h1>
-                    {athleteBikes}
                     <h1>Palmarès</h1>
                     <div>
                         <h2>World Cup Awards</h2>

@@ -11,7 +11,7 @@
     "start:api-dev": "cd world-cup-api && npm run start",
     "start:api-prod": "cd world-cup-api && npm run start:prod",
     "start:front-local": "cd world-cup-app && npm run start",
-    "start:front-dev": "cd world-cup-app && start:dev",
+    "start:front-dev": "cd world-cup-app && npm run start:dev",
     "start:front-prod": "cd world-cup-app && npm run start:prod",
     "test:watch:api": "cd world-cup-api && npm run test:watch",
     "test": "npm-run-all --parallel test:*",

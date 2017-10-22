@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/ElPonito/world-cup#readme",
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap": "4.0.0-alpha.6",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "react": "^15.4.2",
