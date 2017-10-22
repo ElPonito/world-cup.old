@@ -4,15 +4,19 @@
   "description": "Create races based on strava segments",
   "main": "index.js",
   "scripts": {
-    "start:api-local": "cd backs/api && npm run start:local",
-    "start:api-dev": "cd backs/api && npm run start",
-    "start:api-prod": "cd backs/api && npm run start:prod",
-    "start:front-local": "cd UI && npm run start",
-    "start:front-dev": "cd UI && start:dev",
-    "start:front-prod": "cd UI && npm run start:prod",
-    "test:api": "cd backs/api && npm test",
-    "test:api-watch": "cd backs/api && npm run test:watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "npm-run-all --parallel install:*",
+    "install:api": "cd world-cup-api && npm i",
+    "install:app": "cd world-cup-app && npm i",
+    "start:api-local": "cd world-cup-api && npm run start:local",
+    "start:api-dev": "cd world-cup-api && npm run start",
+    "start:api-prod": "cd world-cup-api && npm run start:prod",
+    "start:front-local": "cd world-cup-app && npm run start",
+    "start:front-dev": "cd world-cup-app && npm run start:dev",
+    "start:front-prod": "cd world-cup-app && npm run start:prod",
+    "test:watch:api": "cd world-cup-api && npm run test:watch",
+    "test": "npm-run-all --parallel test:*",
+    "test:api": "cd world-cup-api && npm test",
+    "test:app": "cd world-cup-app && npm test"
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/ElPonito/world-cup/issues"
   },
-  "homepage": "https://github.com/ElPonito/world-cup#readme"
+  "homepage": "https://github.com/ElPonito/world-cup#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.1"
+  }
 }
