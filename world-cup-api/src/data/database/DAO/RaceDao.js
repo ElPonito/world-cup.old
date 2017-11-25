@@ -18,6 +18,10 @@ class RaceDao extends GenericDbDao {
         return this._accessCollection()
                    .updateOne({_id: raceId}, {$set: {[key]: segmentTime}})
     }
+
+    updateRanking(raceId, raceRanking) {
+        this._accessCollection().updateOne({ _id: raceId }, { $set: { ranking: raceRanking } })
+    }
 }
 
 module.exports = RaceDao
