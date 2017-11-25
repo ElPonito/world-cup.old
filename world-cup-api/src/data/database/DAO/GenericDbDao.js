@@ -1,4 +1,5 @@
 const sanitize = require('mongo-sanitize')
+const { ObjectID } = require('mogodb')
 const _ = require('lodash')
 
 class GenericDbDao {
@@ -19,12 +20,12 @@ class GenericDbDao {
         return this._accessCollection().insertOne(item)
     }
 
-    get(id) {
-        const cleanId = sanitize(id)
+    get(objectId) {
+        const id = new ObjectID(objectId)
 
-        return this._accessCollection().findOne({id: cleanId}).then(item => {
+        return this._accessCollection().findOne({ _id: id }).then(item => {
             if (!item) {
-                throw new Error(`Item not found in collection ${this._collectionName} with ID ${cleanId}`)
+                throw new Error(`Item not found in collection ${this._collectionName} with ID ${objectId}`)
             }
 
             return item
@@ -40,7 +41,7 @@ class GenericDbDao {
             return Promise.resolve()
         }
 
-        return this._accessCollection().updateOne({id: sanitize(id)}, {$set: documentUpdate})
+        return this._accessCollection().updateOne({ id: sanitize(id) }, { $set: documentUpdate })
     }
 
 }
