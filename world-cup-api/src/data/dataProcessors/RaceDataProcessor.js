@@ -17,17 +17,21 @@ class RaceDataProcessor {
     }
 
     async computeRaceResult(raceId) {
-        const race = await this.raceDao.get(raceId)
-        const raceRanking = Object.entries(race.results).map(([athleteId, results]) => {
-            const raceResultsArray = Object.entries(results)
-            const athleteTotalRaceTime = raceResultsArray.reduce((res, [segmentId, time]) => res + time, 0)
-            return { athleteId, athleteTotalRaceTime, segmentsNumber: raceResultsArray.length }
-        })
-        const raceRankingSorted = raceRanking.sort(rankTwoResults)
-        const raceRankingToSave = raceRankingSorted.reduce((result, value, index) => {
-            return Object.assign(result, { [index + 1]: Number(value.athleteId) })
-        }, {})
-        this.raceDao.updateRanking(raceId, raceRankingToSave)
+        try {
+            const race = await this.raceDao.get(raceId)
+            const raceRanking = Object.entries(race.results).map(([athleteId, results]) => {
+                const raceResultsArray = Object.entries(results)
+                const athleteTotalRaceTime = raceResultsArray.reduce((res, [segmentId, time]) => res + time, 0)
+                return { athleteId, athleteTotalRaceTime, segmentsNumber: raceResultsArray.length }
+            })
+            const raceRankingSorted = raceRanking.sort(rankTwoResults)
+            const raceRankingToSave = raceRankingSorted.reduce((result, value, index) => {
+                return Object.assign(result, { [index + 1]: Number(value.athleteId) })
+            }, {})
+            this.raceDao.updateRanking(raceId, raceRankingToSave)
+        } catch (e) {
+            console.error('Error on RaceDataProcessor.computeRaceResult:', e)
+        }
     }
 
     getByAthleteIdAndDate(athleteId, date) {
