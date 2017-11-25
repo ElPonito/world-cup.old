@@ -1,5 +1,5 @@
 const sanitize = require('mongo-sanitize')
-const { ObjectID } = require('mogodb')
+const { ObjectID } = require('mongodb')
 const _ = require('lodash')
 
 class GenericDbDao {
