@@ -4,7 +4,7 @@ const RaceDataProcessor = require('./RaceDataProcessor')
 const RaceDao = require('../database/DAO/RaceDao')
 const raceData = require('../../../tests/raceData.js')
 
-describe.only('RaceDataProcessor', () => {
+describe('RaceDataProcessor', () => {
     let raceDataProcessor, raceDao_updateRanking
     before(() => {
         const raceDao = new RaceDao()
