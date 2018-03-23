@@ -67,10 +67,12 @@ class MenuAppBar extends React.Component {
                 <AppBar position='static'>
                     <Toolbar>
                         <Hidden mdUp>
-                            <IconButton className={classes.menuButton} onClick={this.toogleDrawer} color='inherit'
-                                        aria-label='Menu'>
-                                <MenuIcon/>
-                            </IconButton>
+                            {isAuthenticated && (
+                                <IconButton className={classes.menuButton} onClick={this.toogleDrawer} color='inherit'
+                                            aria-label='Menu'>
+                                    <MenuIcon/>
+                                </IconButton>
+                            )}
                         </Hidden>
                         <Link to='/' className={classes.flex}>
                             <Typography type='title' color='inherit'>
@@ -84,6 +86,9 @@ class MenuAppBar extends React.Component {
                                     Create Race
                                 </Button>
                             </Link>
+                        </Hidden>
+
+                        <Hidden smDown>
                             {isAuthenticated && (
                                 <div>
                                     {athlete.profile_medium !== strava.defaultAvatarUrl && (
