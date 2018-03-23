@@ -5,7 +5,7 @@ import Avatar from 'material-ui/Avatar'
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import DraftsIcon from 'material-ui-icons/Drafts'
 import StarIcon from 'material-ui-icons/Star'
-import SendIcon from 'material-ui-icons/Send'
+import CalendarIcon from 'material-ui-icons/PermContactCalendar'
 import { withStyles } from 'material-ui/styles'
 
 const menuDrawer = ({ isDrawerOpen, toogleDrawer, classes, athlete }) => (
@@ -19,8 +19,8 @@ const menuDrawer = ({ isDrawerOpen, toogleDrawer, classes, athlete }) => (
             <div className={classes.list}>
                 <List>
                     <div>
-                        <ListItem button>
-                            <Link to='/athlete'>
+                        <Link to='/athlete'>
+                            <ListItem button className={classes.firstRow}>
                                 <ListItemIcon>
                                     {athlete && <Avatar alt={`${athlete.firstname} ${athlete.lastname}`}
                                                         src={athlete.profile_medium} className={classes.avatar}/>
@@ -28,19 +28,21 @@ const menuDrawer = ({ isDrawerOpen, toogleDrawer, classes, athlete }) => (
 
                                 </ListItemIcon>
                                 <ListItemText primary='Profile'/>
-                            </Link>
-                        </ListItem>
+                            </ListItem>
+                        </Link>
+                        <Link to='/create-race'>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <StarIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary='Create Race'/>
+                            </ListItem>
+                        </Link>
                         <ListItem button>
                             <ListItemIcon>
-                                <StarIcon/>
+                                <CalendarIcon/>
                             </ListItemIcon>
-                            <ListItemText primary='Starred'/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <SendIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary='Send mail'/>
+                            <ListItemText primary='Events'/>
                         </ListItem>
                         <ListItem button>
                             <ListItemIcon>
@@ -59,6 +61,9 @@ const styles = {
     list: {
         width: 250,
     },
+    firstRow: {
+        backgroundColor: '#e0e0e0'
+    }
 }
 
 export default withStyles(styles)(menuDrawer)

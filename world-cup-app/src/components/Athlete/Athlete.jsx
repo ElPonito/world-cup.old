@@ -7,28 +7,24 @@ import { fetchCreateRaceData } from '../../redux/CreateRace'
 class Athlete extends Component {
     componentWillMount() {
         const { athleteState: { koms }, loginState, fetchAthleteKoms } = this.props
-        console.log('*****', _.isEmpty(koms))
         if (_.isEmpty(koms)) {
-            console.log('-----', loginState)
             loginState && fetchAthleteKoms(loginState)
         }
-        console.log('++++++++', koms)
     }
 
     componentWillReceiveProps(newProps) {
         const { athleteState: { koms }, loginState, fetchAthleteKoms } = this.props
-        console.log('*****', _.isEmpty(koms))
         if (_.isEmpty(koms)) {
-            console.log('-----', loginState)
             loginState && fetchAthleteKoms(loginState)
         }
-        console.log('++++++++', koms)
     }
 
     render() {
+        const { athleteState } = this.props
         return (
             <div>
                 Athlete
+                Koms: {athleteState.koms.length}
             </div>
         )
     }
@@ -41,7 +37,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
     fetchAthleteKoms: (loginState) => {
-        console.log('loooooooool')
         dispatch(fetchKoms(loginState.athlete.id))
     },
     onClickCreateRace: (loginState) => {

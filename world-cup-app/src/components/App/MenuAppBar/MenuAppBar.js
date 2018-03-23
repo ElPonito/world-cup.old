@@ -8,7 +8,6 @@ import Typography from 'material-ui/Typography'
 import IconButton from 'material-ui/IconButton'
 import MenuIcon from 'material-ui-icons/Menu'
 import AccountCircle from 'material-ui-icons/AccountCircle'
-import Menu, { MenuItem } from 'material-ui/Menu'
 import Hidden from 'material-ui/Hidden'
 import Button from 'material-ui/Button'
 import Avatar from 'material-ui/Avatar'
@@ -73,10 +72,17 @@ class MenuAppBar extends React.Component {
                                 <MenuIcon/>
                             </IconButton>
                         </Hidden>
-                        <Typography type='title' color='inherit' className={classes.flex}>
-                            World Cup
-                        </Typography>
+                        <Link to='/' className={classes.flex}>
+                            <Typography type='title' color='inherit'>
+                                World Cup
+                            </Typography>
+                        </Link>
                         <Hidden only={['xs', 'sm']}>
+                            <Link to='/create-race'>
+                                <Button className={classes.button}>
+                                    Create Race
+                                </Button>
+                            </Link>
                             {isAuthenticated && (
                                 <div>
                                     {athlete.profile_medium !== strava.defaultAvatarUrl && (
@@ -86,32 +92,17 @@ class MenuAppBar extends React.Component {
                                         </Link>
                                     )}
                                     {athlete.profile_medium === strava.defaultAvatarUrl && (
-                                        <IconButton
-                                            aria-owns={open ? 'menu-appbar' : null}
-                                            aria-haspopup='true'
-                                            onClick={this.handleMenu}
-                                            color='inherit'
-                                        >
-                                            <AccountCircle/>
-                                        </IconButton>
+                                        <Link to='/athlete'>
+                                            <IconButton
+                                                aria-owns={open ? 'menu-appbar' : null}
+                                                aria-haspopup='true'
+                                                onClick={this.handleMenu}
+                                                color='inherit'
+                                            >
+                                                <AccountCircle/>
+                                            </IconButton>
+                                        </Link>
                                     )}
-                                    <Menu
-                                        id='menu-appbar'
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        open={open}
-                                        onClose={this.handleClose}
-                                    >
-                                        <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                        <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                                    </Menu>
                                 </div>
                             )}
                         </Hidden>

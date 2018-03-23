@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { browserHistory, Route, Router } from 'react-router'
+import { browserHistory, IndexRoute, Route, Router } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import store from './redux/store'
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles'
@@ -10,8 +10,9 @@ import Athlete from './components/Athlete/Athlete.jsx'
 
 import requireAuthentication from './components/Athenticated'
 import TimeLine from './components/TimeLine'
-/*import Home from './components/Home'
-import CreateRace from './components/CreateRace'*/
+import CreateRace from './components/CreateRace/CreateRace.jsx'
+import Home from './components/Home/Home.jsx'
+/*import CreateRace from './components/CreateRace'*/
 
 const theme = createMuiTheme({
     palette: {
@@ -40,9 +41,11 @@ export default class Routes extends Component {
             <MuiThemeProvider theme={theme}>
                 <Router history={history}>
                     <Route path='/' component={App}>
+                        <IndexRoute component={Home}/>
                         <Route path='login' component={Login}/>
                         <Route path='athlete' component={requireAuthentication(Athlete)}/>
                         <Route path='timeline' component={requireAuthentication(TimeLine)}/>
+                        <Route path='create-race' component={requireAuthentication(CreateRace)}/>
                         {/* <IndexRoute component={Home}/>
                         <Route path='create-race' component={requireAuthentication(CreateRace)}/>*/}
                     </Route>
