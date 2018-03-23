@@ -66,7 +66,7 @@ class MenuAppBar extends React.Component {
             <div className={classes.root}>
                 <AppBar position='static'>
                     <Toolbar>
-                        <Hidden only={['md', 'lg', 'xl']}>
+                        <Hidden mdUp>
                             <IconButton className={classes.menuButton} onClick={this.toogleDrawer} color='inherit'
                                         aria-label='Menu'>
                                 <MenuIcon/>
@@ -77,7 +77,8 @@ class MenuAppBar extends React.Component {
                                 World Cup
                             </Typography>
                         </Link>
-                        <Hidden only={['xs', 'sm']}>
+
+                        <Hidden smDown>
                             <Link to='/create-race'>
                                 <Button className={classes.button}>
                                     Create Race
