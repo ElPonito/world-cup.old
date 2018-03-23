@@ -1,6 +1,11 @@
 const request = require('request-promise')
-const stravaConfig = require('../../config/stravaConfig')
 const config = require('../../config/config')
+let stravaConfig = { client_id: 'fake', client_secret: 'fake' }
+try {
+    stravaConfig = require('../../config/stravaConfig')
+} catch (e) {
+    console.warn('Couldn\'t load stravaConfig')
+}
 
 const subscribe = token => {
     const options = {

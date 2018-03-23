@@ -1,4 +1,11 @@
-const {prodCredentials, devCredentials} = require('./credentials')
+let credentials = { prodCredentials: 'fake', devCredentials: 'fake' }
+try {
+    credentials = require('./credentials')
+} catch (e) {
+    console.warn('Couldn\'t load stravaConfig')
+}
+
+const { prodCredentials, devCredentials } = credentials
 
 const config = {
     local: {
