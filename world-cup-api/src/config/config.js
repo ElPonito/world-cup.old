@@ -2,7 +2,7 @@ let credentials = { prodCredentials: 'fake', devCredentials: 'fake' }
 try {
     credentials = require('./credentials')
 } catch (e) {
-    console.warn('Couldn\'t load stravaConfig')
+    console.warn('Couldn\'t load credentials')
 }
 
 const { prodCredentials, devCredentials } = credentials
