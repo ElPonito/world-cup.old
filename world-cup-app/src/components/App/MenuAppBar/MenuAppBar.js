@@ -81,11 +81,13 @@ class MenuAppBar extends React.Component {
                         </Link>
 
                         <Hidden smDown>
-                            <Link to='/create-race'>
-                                <Button className={classes.button}>
-                                    Create Race
-                                </Button>
-                            </Link>
+                            {isAuthenticated && (
+                                <Link to='/create-race'>
+                                    <Button className={classes.button}>
+                                        Create Race
+                                    </Button>
+                                </Link>
+                            )}
                         </Hidden>
 
                         <Hidden smDown>

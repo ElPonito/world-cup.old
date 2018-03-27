@@ -1,3 +1,4 @@
+import Grid from 'material-ui/Grid'
 import MenuAppBar from './MenuAppBar/MenuAppBar'
 import './App.less'
 
@@ -6,7 +7,9 @@ export default ({ children }) => {
         <div>
             <MenuAppBar/>
             <div className='app-container'>
-                {children}
+                <Grid>
+                    {children}
+                </Grid>
             </div>
         </div>
     )
