@@ -16,7 +16,7 @@
     "test:watch:api": "cd world-cup-api && npm run test:watch",
     "test": "npm-run-all --parallel test:*",
     "test:api": "cd world-cup-api && npm test",
-    "test:app": "cd world-cup-app && npm test"
+    "test:app": "cd app && npm test"
   },
   "repository": {
     "type": "git",
@@ -30,8 +30,5 @@
   "homepage": "https://github.com/ElPonito/world-cup#readme",
   "devDependencies": {
     "npm-run-all": "^4.1.1"
-  },
-  "dependencies": {
-    "current-device": "^0.7.2"
   }
 }
