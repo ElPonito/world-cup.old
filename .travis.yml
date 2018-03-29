@@ -5,6 +5,4 @@ node_js:
 install:
   - npm install
 script:
-  - npm i -G jest
-  - cd app; npm i babel-preset-react-app
   - npm test

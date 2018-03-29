@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "npm-run-all --parallel install:*",
     "install:api": "cd world-cup-api && npm i",
-    "install:app": "cd world-cup-app && npm i",
+    "install:app": "cd app && npm i",
     "start:api-local": "cd world-cup-api && npm run start:local",
     "start:api-dev": "cd world-cup-api && npm run start:dev",
     "start:api-prod": "cd world-cup-api && npm run start:prod",
