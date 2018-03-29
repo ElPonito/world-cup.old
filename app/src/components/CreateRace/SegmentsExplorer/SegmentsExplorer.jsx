@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
+import mapboxgl from 'mapbox-gl'
 import Strava from '../../../data/rest/Strava'
 import config from '../../../app-config'
-// import mapboxgl from 'mapbox-gl'
-const mapboxgl = require('mapbox-gl')
 
 mapboxgl.accessToken = config.mapboxToken
 
