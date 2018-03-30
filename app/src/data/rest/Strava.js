@@ -13,4 +13,8 @@ export default class Strava {
     static getSegments(bounds) {
         return GET(`${config.api_url}/segments?bounds=${bounds}`)
     }
+
+    static getSegment(id) {
+        return GET(`${config.api_url}/segment/${id}`)
+    }
 }

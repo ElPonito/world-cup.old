@@ -1,28 +1,100 @@
 import React, { Component } from 'react'
 import mapboxgl from 'mapbox-gl'
+import polyline from 'polyline-encoded'
 import Strava from '../../../data/rest/Strava'
 import config from '../../../app-config'
 
 mapboxgl.accessToken = config.mapboxToken
+
+const PARIS = [2.333333, 48.866667]
 
 export default class SegmentsExplorer extends Component {
     componentDidMount() {
         this.map = new mapboxgl.Map({
             container: this.mapContainer,
             style: 'mapbox://styles/mapbox/outdoors-v9',
-            center: [5.724524, 45.188529],
-            zoom: 10
+            center: PARIS,
+            zoom: 10,
         })
+
+        this.getUserPosition()
+
         // TODO remove, it's just a test
         const bounds = this.map.getBounds()
-        const b = [bounds._ne.lat, bounds._ne.lng, bounds._sw.lat, bounds._sw.lng]
-        Strava.getSegments(JSON.stringify(b)).then(result => {
-            console.log(JSON.parse(result))
+        const b = [bounds._sw.lat, bounds._sw.lng, bounds._ne.lat, bounds._ne.lng]
+
+        Strava.getSegments(JSON.stringify(b)).then(segmentsList => {
+            JSON.parse(segmentsList).map(segment => {
+                Strava.getSegment(segment.id).then(s => {
+                    const detailledSegment = JSON.parse(s)
+                    const decodedPolyline = polyline.decode(detailledSegment.map.polyline)
+                    const coordinates = decodedPolyline.map(([lat, lng]) => [lng, lat])
+                    this.map.addLayer({
+                        'id': detailledSegment.id.toString(),
+                        'type': 'line',
+                        'source': {
+                            'type': 'geojson',
+                            'data': {
+                                'type': 'Feature',
+                                'properties': {},
+                                'geometry': {
+                                    'type': 'LineString',
+                                    coordinates
+                                }
+                            }
+                        },
+                        'layout': {
+                            'line-join': 'round',
+                            'line-cap': 'round'
+                        },
+                        'paint': {
+                            'line-color': '#735139',
+                            'line-width': 4
+                        }
+                    })
+                    this.map.addLayer({
+                        'id': `${detailledSegment.id}-point`,
+                        'type': 'symbol',
+                        'source': {
+                            'type': 'geojson',
+                            'data': {
+                                'type': 'FeatureCollection',
+                                'features': [{
+                                    'type': 'Feature',
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [detailledSegment.start_latlng[1], detailledSegment.start_latlng[0]]
+                                    },
+                                    'properties': {
+                                        'title': detailledSegment.name,
+                                        'icon': 'triangle'
+                                    }
+                                }]
+                            }
+                        },
+                        'layout': {
+                            'icon-image': '{icon}-15',
+                        }
+                    })
+                    this.map.on('click', `${detailledSegment.id.toString()}-point`, e => {
+                        new mapboxgl.Popup()
+                            .setLngLat(e.lngLat)
+                            .setHTML(detailledSegment.name)
+                            .addTo(this.map)
+                    })
+                })
+            })
         })
     }
 
     componentWillUnmount() {
         this.map.remove()
+    }
+
+    getUserPosition() {
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => this.map.setCenter([position.coords.longitude, position.coords.latitude]))
+        }
     }
 
     render() {
