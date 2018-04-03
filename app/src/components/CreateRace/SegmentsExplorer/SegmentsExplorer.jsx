@@ -94,16 +94,15 @@ class SegmentsExplorer extends Component {
                             'icon-image': '{icon}-15',
                         }
                     })
+                    //@formatter:off
                     this.map.on('click', `${detailledSegment.id.toString()}-point`, e => {
                         new mapboxgl.Popup()
                             .setLngLat(e.lngLat)
-                            .setHTML('<div id='
-                        '+segment.id+'
-                        '></div>'
-                    )
+                            .setHTML(`<div id='${segment.id}'></div>`)
                             .addTo(this.map)
                         ReactDOM.render(this.renderSegmentPopUp(detailledSegment), document.getElementById(segment.id))
                     })
+                    //@formatter:on
                 })
             })
         })
