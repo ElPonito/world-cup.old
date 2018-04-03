@@ -8,12 +8,14 @@ class RaceDataProcessor {
     }
 
     createRace(rawData, webhookEventsDataProcessor) {
-        const raceDate = new Date(rawData.raceDate).toISOString()
-        const newRawData = _.assign({}, rawData, { raceDate })
-        return webhookEvents.subscribe(newRawData.token)
-            .then(res => webhookEventsDataProcessor.registerSubscription(_.assign({}, JSON.parse(res), { athleteId: newRawData.raceOwner })))
+        const date = new Date(rawData.date).toISOString()
+        const newRawData = _.assign({}, rawData, { date })
+        // TODO uncomment code!!! this just for local tests
+        return this.raceDao.add(new Race(newRawData))
+        /*return webhookEvents.subscribe(newRawData.token)
+            .then(res => webhookEventsDataProcessor.registerSubscription(_.assign({}, JSON.parse(res), { athleteId: newRawData.owner })))
             .then(() => this.raceDao.add(new Race(newRawData)))
-            .catch(console.log)
+            .catch(console.log)*/
     }
 
     async computeRaceResult(raceId) {

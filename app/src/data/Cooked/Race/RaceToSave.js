@@ -1,9 +1,10 @@
 export default class RaceToSave {
     constructor(formData) {
-        this.raceName = formData.raceName
-        this.raceDate = formData.stringDate
-        this.raceOwner = formData.raceOwner
-        this.raceAthletes = formData.raceAthletes
-        this.raceSegments = formData.raceSegments
+        this.name = formData.name
+        this.date = formData.date
+        this.owner = formData.owner
+        this.athletes = formData.athletes
+        this.segments = formData.segments
+        this.isPrivate = formData.isPrivate
     }
 }

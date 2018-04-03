@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
@@ -9,14 +10,15 @@ import Switch from 'material-ui/Switch'
 import Button from 'material-ui/Button'
 import green from 'material-ui/colors/green'
 import Save from 'material-ui-icons/Save'
-
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
+import { createRace } from '../../redux/CreateRace'
 import SegmentsExplorer from './SegmentsExplorer/SegmentsExplorer'
 import './CreateRace.css'
 
 const styles = theme => ({
     card: {
         minWidth: '100%',
-        maxHeight: '80vh',
+        maxHeight: 'calc(100vh - 150px)',
         overflow: 'auto'
     },
     title: {
@@ -57,19 +59,56 @@ class CreateRace extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isPrivateRace: false
+            race: {
+                name: '',
+                date: new Date(),
+                athletes: [props.athlete.id],
+                segments: [],
+                isPrivate: false
+            }
+        }
+
+        /*this.state = {
+            raceName: '',
+            raceDate: new Date().toISOString(),
+            stringDate: createStringDateFromDateObject(new Date()),
+            raceAthletes: [props.athlete.id],
+            raceSegments: [],
+            formValid: {
+                raceName: true
+            }
+        }*/
+    }
+
+    addSegment = (segment) => {
+        this.setState(prevState => ({
+            race: {
+                ...prevState.race,
+                segments: [...prevState.race.segments, segment]
+            }
+        }))
+    }
+
+    createRace() {
+        if(this.isFormValid()) {
+            this.props.saveRace({ ...this.state, raceOwner: this.props.athlete.id, token: this.props.token })
         }
     }
 
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.checked })
+    handleRaceChange = name => event => {
+        const { target } = event
+        const value = target.type === 'checkbox' ? target.checked : target.value
+        console.log('value', value)
+        this.setState(prevState => ({ race: { ...prevState.race, [name]: value } }))
     }
 
     render() {
-        const { classes } = this.props
+        const { classes, saveRace } = this.props
+        const { race: { segments } } = this.state
         return (
             <div style={{ marginTop: '10px' }}>
-                <Button className={classes.button} variant='raised' size='small'>
+                <Button className={classes.button} variant='raised' size='small'
+                        onClick={() => saveRace(this.state.race)}>
                     <Save className={classNames(classes.leftIcon, classes.iconSmall)}/>
                     Save
                 </Button>
@@ -84,6 +123,7 @@ class CreateRace extends Component {
                                     id='with-placeholder'
                                     label='Nom de la course'
                                     placeholder='Course'
+                                    onChange={this.handleRaceChange('name')}
                                     className={classes.textField}
                                     margin='normal'
                                 />
@@ -92,13 +132,13 @@ class CreateRace extends Component {
                                 <br/>
                                 <span>
                                     <Switch
-                                        checked={this.state.isPrivateRace}
-                                        onChange={this.handleChange('isPrivateRace')}
+                                        checked={this.state.race.isPrivate}
+                                        onChange={this.handleRaceChange('isPrivate')}
                                         classes={{
                                             checked: classes.checked,
                                             bar: classes.bar,
                                         }}
-                                        value='isPrivateRace'
+                                        value='isPrivate'
                                     />
                                     Private Race
                                 </span>
@@ -111,7 +151,26 @@ class CreateRace extends Component {
                                 <Typography className={classes.title} color='textSecondary'>
                                     Segments
                                 </Typography>
-                                <SegmentsExplorer/>
+                                <SegmentsExplorer addSegment={this.addSegment}/>
+                                <Table className={classes.table}>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Nom</TableCell>
+                                            <TableCell numeric>Distance</TableCell>
+                                            <TableCell numeric>D+</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {segments.map(segment => (
+                                                <TableRow key={segment.id}>
+                                                    <TableCell>{segment.name}</TableCell>
+                                                    <TableCell numeric>{segment.distance}</TableCell>
+                                                    <TableCell numeric>{segment.total_elevation_gain}</TableCell>
+                                                </TableRow>
+                                            )
+                                        )}
+                                    </TableBody>
+                                </Table>
                             </CardContent>
                         </Card>
                     </Grid>
@@ -139,4 +198,17 @@ class CreateRace extends Component {
     }
 }
 
-export default withStyles(styles)(CreateRace)
+const mapStateToProps = state => {
+    return {
+        athlete: state.loginReducer.athlete,
+        token: state.loginReducer.token,
+        // athleteFriends: new FriendListToDisplay(state.athleteReducer.friends).listToTableDisplay(),
+        // athleteStarredSegments: new SegmentsListToDisplay(state.athleteReducer.starredSegments).list
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    saveRace: data => dispatch(createRace(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CreateRace))
