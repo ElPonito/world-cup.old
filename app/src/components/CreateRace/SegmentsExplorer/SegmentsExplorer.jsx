@@ -34,78 +34,10 @@ class SegmentsExplorer extends Component {
             zoom: 10,
         })
 
+        this.map.on('dragend', this.redrawSegments)
+        this.map.on('zoomend', this.redrawSegments)
+
         this.getUserPosition()
-
-        // TODO remove, it's just a test
-        const bounds = this.map.getBounds()
-        const b = [bounds._sw.lat, bounds._sw.lng, bounds._ne.lat, bounds._ne.lng]
-        // const b = [48.8191, 2.0235, 48.9545, 2.3524]
-
-        Strava.getSegments(JSON.stringify(b)).then(segmentsList => {
-            JSON.parse(segmentsList).map(segment => {
-                Strava.getSegment(segment.id).then(s => {
-                    const detailledSegment = JSON.parse(s)
-                    const decodedPolyline = polyline.decode(detailledSegment.map.polyline)
-                    const coordinates = decodedPolyline.map(([lat, lng]) => [lng, lat])
-                    this.map.addLayer({
-                        'id': detailledSegment.id.toString(),
-                        'type': 'line',
-                        'source': {
-                            'type': 'geojson',
-                            'data': {
-                                'type': 'Feature',
-                                'properties': {},
-                                'geometry': {
-                                    'type': 'LineString',
-                                    coordinates
-                                }
-                            }
-                        },
-                        'layout': {
-                            'line-join': 'round',
-                            'line-cap': 'round'
-                        },
-                        'paint': {
-                            'line-color': '#735139',
-                            'line-width': 4
-                        }
-                    })
-                    this.map.addLayer({
-                        'id': `${detailledSegment.id}-point`,
-                        'type': 'symbol',
-                        'source': {
-                            'type': 'geojson',
-                            'data': {
-                                'type': 'FeatureCollection',
-                                'features': [{
-                                    'type': 'Feature',
-                                    'geometry': {
-                                        'type': 'Point',
-                                        'coordinates': [detailledSegment.start_latlng[1], detailledSegment.start_latlng[0]]
-                                    },
-                                    'properties': {
-                                        'title': detailledSegment.name,
-                                        'icon': 'triangle'
-                                    }
-                                }]
-                            }
-                        },
-                        'layout': {
-                            'icon-image': '{icon}-15',
-                        }
-                    })
-                    //@formatter:off
-                    this.map.on('click', `${detailledSegment.id.toString()}-point`, e => {
-                        new mapboxgl.Popup()
-                            .setLngLat(e.lngLat)
-                            .setHTML(`<div id='${segment.id}'></div>`)
-                            .addTo(this.map)
-                        ReactDOM.render(this.renderSegmentPopUp(detailledSegment), document.getElementById(segment.id))
-                    })
-                    //@formatter:on
-                })
-            })
-        })
     }
 
     componentWillUnmount() {
@@ -114,9 +46,98 @@ class SegmentsExplorer extends Component {
 
     getUserPosition() {
         if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => this.map.setCenter([position.coords.longitude, position.coords.latitude]))
+            navigator.geolocation.getCurrentPosition((position) => {
+                this.map.setCenter([position.coords.longitude, position.coords.latitude])
+                this.drawSegments()
+            }, this.drawSegments)
         }
     }
+
+    redrawSegments = () => {
+        this.removeSegmentsFromMap()
+        this.drawSegments()
+    }
+
+    drawSegments = () => {
+        const bounds = this.map.getBounds()
+        const formattedBounds = `${bounds._sw.lat}, ${bounds._sw.lng}, ${bounds._ne.lat}, ${bounds._ne.lng}`
+        return this.getAndDrawSegments(formattedBounds)
+    }
+
+    getAndDrawSegments = bounds => Strava.getSegments(bounds).then(segmentsList => {
+        this.setState({ mapSegmentsList: segmentsList })
+        this.addSegmentsToMap(segmentsList)
+    })
+
+    addSegmentsToMap = segmentsList => {
+        segmentsList.map(segment => {
+            const decodedPolyline = polyline.decode(segment.points)
+            const coordinates = decodedPolyline.map(([lat, lng]) => [lng, lat])
+            this.map.addLayer({
+                'id': segment.id.toString(),
+                'type': 'line',
+                'source': {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                            'type': 'LineString',
+                            coordinates
+                        }
+                    }
+                },
+                'layout': {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                'paint': {
+                    'line-color': '#735139',
+                    'line-width': 4
+                }
+            })
+            this.map.addLayer({
+                'id': `${segment.id}-point`,
+                'type': 'symbol',
+                'source': {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': [{
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [segment.start_latlng[1], segment.start_latlng[0]]
+                            },
+                            'properties': {
+                                'title': segment.name,
+                                'icon': 'triangle'
+                            }
+                        }]
+                    }
+                },
+                'layout': {
+                    'icon-image': '{icon}-15',
+                }
+            })
+            this.map.on('click', `${segment.id.toString()}-point`, e => {
+                //@formatter:off
+                            new mapboxgl.Popup()
+                                .setLngLat(e.lngLat)
+                                .setHTML(`<div id='${segment.id}'></div>`)
+                                .addTo(this.map)
+                            //@formatter:on
+                ReactDOM.render(this.renderSegmentPopUp(segment), document.getElementById(segment.id))
+            })
+        })
+    }
+
+    removeSegmentsFromMap = () => this.state.mapSegmentsList.forEach(segment => {
+        this.map.removeLayer(`${segment.id}-point`)
+        this.map.removeSource(`${segment.id}-point`)
+        this.map.removeLayer(`${segment.id}`)
+        this.map.removeSource(`${segment.id}`)
+    })
 
     renderSegmentPopUp = segment => (
         <div>

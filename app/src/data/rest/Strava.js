@@ -11,7 +11,7 @@ export default class Strava {
     }
 
     static getSegments(bounds) {
-        return GET(`${config.api_url}/segments?bounds=${bounds}`)
+        return GET(`${config.api_url}/segments?bounds=${bounds}`).then(payload => JSON.parse(payload))
     }
 
     static getSegment(id) {
