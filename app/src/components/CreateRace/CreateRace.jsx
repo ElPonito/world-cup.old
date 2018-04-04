@@ -11,6 +11,8 @@ import Button from 'material-ui/Button'
 import green from 'material-ui/colors/green'
 import Save from 'material-ui-icons/Save'
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
+import Flatpickr from 'react-flatpickr'
+import '../../assets/styles/flatpickr.css'
 import { createRace } from '../../redux/CreateRace'
 import SegmentsExplorer from './SegmentsExplorer/SegmentsExplorer'
 import './CreateRace.css'
@@ -67,17 +69,6 @@ class CreateRace extends Component {
                 isPrivate: false
             }
         }
-
-        /*this.state = {
-            raceName: '',
-            raceDate: new Date().toISOString(),
-            stringDate: createStringDateFromDateObject(new Date()),
-            raceAthletes: [props.athlete.id],
-            raceSegments: [],
-            formValid: {
-                raceName: true
-            }
-        }*/
     }
 
     addSegment = (segment) => {
@@ -98,13 +89,12 @@ class CreateRace extends Component {
     handleRaceChange = name => event => {
         const { target } = event
         const value = target.type === 'checkbox' ? target.checked : target.value
-        console.log('value', value)
         this.setState(prevState => ({ race: { ...prevState.race, [name]: value } }))
     }
 
     render() {
         const { classes, saveRace } = this.props
-        const { race: { segments } } = this.state
+        const { race: { segments, date } } = this.state
         return (
             <div style={{ marginTop: '10px' }}>
                 <Button className={classes.button} variant='raised' size='small'
@@ -127,9 +117,23 @@ class CreateRace extends Component {
                                     className={classes.textField}
                                     margin='normal'
                                 />
-                                <br/>
-                                TODO: DATE!!
-                                <br/>
+                                <div style={{ margin: '10px' }}>
+                                    <span style={{
+                                        marginBottom: '5px',
+                                        fontSize: '0.8rem',
+                                        color: 'rgba(0, 0, 0, 0.54)'
+                                    }}>
+                                        Date
+                                    </span>
+                                    <br/>
+                                    <Flatpickr value={date}
+                                               onChange={date => this.setState(prevState => ({
+                                                   race: {
+                                                       ...prevState.race,
+                                                       date
+                                                   }
+                                               }))}/>
+                                </div>
                                 <span>
                                     <Switch
                                         checked={this.state.race.isPrivate}

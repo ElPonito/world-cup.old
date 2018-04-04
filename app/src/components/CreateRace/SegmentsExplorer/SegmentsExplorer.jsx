@@ -26,6 +26,14 @@ const PARIS = [2.333333, 48.866667]
 const GRENOBLE = [5.724524, 45.188529]
 
 class SegmentsExplorer extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            mapEvents: {}
+        }
+    }
+
     componentDidMount() {
         this.map = new mapboxgl.Map({
             container: this.mapContainer,
@@ -73,70 +81,81 @@ class SegmentsExplorer extends Component {
         segmentsList.map(segment => {
             const decodedPolyline = polyline.decode(segment.points)
             const coordinates = decodedPolyline.map(([lat, lng]) => [lng, lat])
-            this.map.addLayer({
-                'id': segment.id.toString(),
-                'type': 'line',
-                'source': {
-                    'type': 'geojson',
-                    'data': {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                            'type': 'LineString',
-                            coordinates
-                        }
-                    }
-                },
-                'layout': {
-                    'line-join': 'round',
-                    'line-cap': 'round'
-                },
-                'paint': {
-                    'line-color': '#735139',
-                    'line-width': 4
-                }
-            })
-            this.map.addLayer({
-                'id': `${segment.id}-point`,
-                'type': 'symbol',
-                'source': {
-                    'type': 'geojson',
-                    'data': {
-                        'type': 'FeatureCollection',
-                        'features': [{
+            try {
+                this.map.addLayer({
+                    'id': segment.id.toString(),
+                    'type': 'line',
+                    'source': {
+                        'type': 'geojson',
+                        'data': {
                             'type': 'Feature',
+                            'properties': {},
                             'geometry': {
-                                'type': 'Point',
-                                'coordinates': [segment.start_latlng[1], segment.start_latlng[0]]
-                            },
-                            'properties': {
-                                'title': segment.name,
-                                'icon': 'triangle'
+                                'type': 'LineString',
+                                coordinates
                             }
-                        }]
+                        }
+                    },
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#735139',
+                        'line-width': 4
                     }
-                },
-                'layout': {
-                    'icon-image': '{icon}-15',
+                })
+                this.map.addLayer({
+                    'id': `${segment.id}-point`,
+                    'type': 'symbol',
+                    'source': {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [{
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [segment.start_latlng[1], segment.start_latlng[0]]
+                                },
+                                'properties': {
+                                    'title': segment.name,
+                                    'icon': 'triangle'
+                                }
+                            }]
+                        }
+                    },
+                    'layout': {
+                        'icon-image': '{icon}-15',
+                    }
+                })
+                if(!this.state.mapEvents[segment.id]) {
+                    this.map.on('click', `${segment.id}-point`, e => {
+                        //@formatter:off
+                        new mapboxgl.Popup()
+                         .setLngLat(e.lngLat)
+                         .setHTML(`<div id='${segment.id}'></div>`)
+                         .addTo(this.map)
+                        //@formatter:on
+                        ReactDOM.render(this.renderSegmentPopUp(segment), document.getElementById(segment.id))
+                    })
+                    this.setState(({ mapEvents }) => ({ mapEvents: { ...mapEvents, [segment.id]: true } }))
                 }
-            })
-            this.map.on('click', `${segment.id.toString()}-point`, e => {
-                //@formatter:off
-                            new mapboxgl.Popup()
-                                .setLngLat(e.lngLat)
-                                .setHTML(`<div id='${segment.id}'></div>`)
-                                .addTo(this.map)
-                            //@formatter:on
-                ReactDOM.render(this.renderSegmentPopUp(segment), document.getElementById(segment.id))
-            })
+            } catch (e) {
+                console.warn(e)
+            }
         })
     }
 
-    removeSegmentsFromMap = () => this.state.mapSegmentsList.forEach(segment => {
-        this.map.removeLayer(`${segment.id}-point`)
-        this.map.removeSource(`${segment.id}-point`)
-        this.map.removeLayer(`${segment.id}`)
-        this.map.removeSource(`${segment.id}`)
+    removeSegmentsFromMap = () => this.state && this.state.mapSegmentsList.forEach(segment => {
+        try {
+            this.map.removeLayer(`${segment.id}-point`)
+            this.map.removeLayer(`${segment.id}`)
+            this.map.removeSource(`${segment.id}`)
+            this.map.removeSource(`${segment.id}-point`)
+        } catch (e) {
+            console.warn(e)
+        }
     })
 
     renderSegmentPopUp = segment => (
