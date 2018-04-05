@@ -8,4 +8,4 @@ export const storeToken = (token, athlete) => {
     })
 }
 
-export const storeTokenInDb = (token, athleteId) => dispatch => Athlete.storeToken(token, athleteId)
+export const storeTokenInDb = (token, athlete) => dispatch => Athlete.storeToken(token, athlete)

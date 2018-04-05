@@ -1,7 +1,7 @@
 const strava = require('strava-v3')
 
 module.exports = {
-    createWorldCupApiRoutes: (app, raceDataProcessor, webhookEventsDataProcessor, sessionDao) => {
+    createWorldCupApiRoutes: (app, raceDataProcessor, webhookEventsDataProcessor, sessionDao, athleteDao) => {
         app.get('/token_exchange/:access_code', (req, res) => {
             strava.oauth.getToken(req.params.access_code, (err, payload) => {
                 const accessToken = payload.access_token
@@ -27,18 +27,26 @@ module.exports = {
             raceDataProcessor.createRace(req.body, webhookEventsDataProcessor).then(() => {
                 res.sendStatus(200)
             })
-        }).post('/store-token', (req, res) => {
+        }).post('/store-token', async (req, res) => {
                 const token = req.get('Authorization')
-                const athleteId = req.body.athleteId
-                //@formatter:off
-                sessionDao.getAthleteSession(athleteId)
-                    .then(session => session && sessionDao.updateSession(session.athleteId, token) || sessionDao.add({
-                        athleteId,
-                        token
-                    }))
-                    .then(() => res.sendStatus(200))
-                    .catch(err => res.sendStatus(500))
-                //@formatter:on
+            const athlete = req.body.athlete
+            const athleteId = athlete.id
+            try {
+                const session = await sessionDao.getAthleteSession(athleteId)
+                if(session) {
+                    sessionDao.updateSession(session.athleteId, token)
+                } else {
+                    sessionDao.add({ athleteId, token })
+                }
+                const storedAthlete = await athleteDao.getAthlete(athlete.id)
+                if(!storedAthlete) {
+                    await athleteDao.add(athlete)
+                }
+                res.sendStatus(200)
+            } catch (e) {
+                console.warn(e)
+                res.sendStatus(500)
+            }
             }
         ).get('/webhook-callback', (req, res) => {
             res.send({ 'hub.challenge': req.query['hub.challenge'] })

@@ -5,6 +5,7 @@ const DatabaseConnection = require('./data/database/DatabaseConnection')
 const RaceDao = require('./data/database/DAO/RaceDao')
 const WebhookEventsDao = require('./data/database/DAO/WebhooksEventsDao')
 const SessionDao = require('./data/database/DAO/SessionDao')
+const AthleteDao = require('./data/database/DAO/AthleteDao')
 const RaceDataProcessor = require('./data/dataProcessors/RaceDataProcessor')
 const WebhookEventsDataProcessor = require('./data/dataProcessors/WebhookEventsDataProcessor')
 const routes = require('./routes')
@@ -12,6 +13,7 @@ const routes = require('./routes')
 class App {
 
     constructor() {
+        this.athleteDao = new AthleteDao()
         this.raceDao = new RaceDao()
         this.webhookEventsDao = new WebhookEventsDao()
         this.sessionDao = new SessionDao()
@@ -21,6 +23,7 @@ class App {
 
     initDataBase() {
         return DatabaseConnection.getDbConnection().then(dbConnection => {
+            this.athleteDao.dbConnection = dbConnection
             this.raceDao.dbConnection = dbConnection
             this.webhookEventsDao.dbConnection = dbConnection
             this.sessionDao.dbConnection = dbConnection
@@ -41,7 +44,7 @@ class App {
             extended: true
         }))
 
-        routes.createWorldCupApiRoutes(app, this.raceDataProcessor, this.webhookEventsDataProcessor, this.sessionDao)
+        routes.createWorldCupApiRoutes(app, this.raceDataProcessor, this.webhookEventsDataProcessor, this.sessionDao, this.athleteDao)
 
         app.listen(serverPort, () => {
             console.log(`App listening on port ${serverPort}!`)

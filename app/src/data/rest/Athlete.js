@@ -13,9 +13,9 @@ export const fetchStarredSegments = token => {
     return GET(`${config.api_url}/athlete-starred-segment/${token}`).then(segments => JSON.parse(segments))
 }
 
-export const storeToken = (token, athleteId) => {
+export const storeToken = (token, athlete) => {
     const header = { Authorization: token }
-    const body = JSON.stringify({ athleteId })
+    const body = JSON.stringify({ athlete })
     return POST(`${config.api_url}/store-token`, body, header)
 }
 

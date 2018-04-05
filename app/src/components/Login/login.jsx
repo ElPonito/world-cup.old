@@ -13,7 +13,7 @@ const Login = (props) => {
         const token = payload.accessToken
         const athlete = payload.athlete
         props.storeToken(token, athlete)
-        props.storeTokenInDb(token, athlete.id)
+        props.storeTokenInDb(token, athlete)
         props.history.push('timeline')
     })
 

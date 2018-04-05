@@ -30,7 +30,8 @@ class SegmentsExplorer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            mapEvents: {}
+            mapEvents: {},
+            mapSegmentsList: []
         }
     }
 
