@@ -10,6 +10,7 @@ import Timeline from '../Timeline/Timeline.jsx'
 
 import requireAuthentication from '../Athenticated'
 import CreateRace from '../CreateRace/CreateRace.jsx'
+import FriendsSearch from '../FriendsSearch/FriendsSearch.jsx'
 import './App.css'
 
 const theme = createMuiTheme({
@@ -47,6 +48,7 @@ class App extends Component {
                             <Route exact path='/create-race' component={requireAuthentication(CreateRace)}/>
                             <Route exact path='/timeline' component={requireAuthentication(Timeline)}/>
                             <Route exact path='/athlete' component={requireAuthentication(Athlete)}/>
+                            <Route exact path='/friends-search' component={requireAuthentication(FriendsSearch)}/>
                             <Route exact path='/about-us' component={About}/>
                         </div>
                     </main>

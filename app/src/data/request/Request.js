@@ -26,17 +26,17 @@ const GET = (url) => {
     return makeRequest(url)
 }
 
-const PUT = (url, params) => {
-    return makeRequest(url, params, 'PUT')
+const PUT = (url, body) => {
+    return makeRequest(url, body, 'PUT')
 }
 
-const POST = (url, params, headers) => {
+const POST = (url, body, headers) => {
     const localHeaders = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         ...headers
     }
-    return makeRequest(url, params, 'POST', localHeaders)
+    return makeRequest(url, body, 'POST', localHeaders)
 }
 
 export {

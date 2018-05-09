@@ -10,15 +10,17 @@ import Switch from 'material-ui/Switch'
 import Button from 'material-ui/Button'
 import green from 'material-ui/colors/green'
 import Save from 'material-ui-icons/Save'
+import { Avatar, IconButton } from 'material-ui'
+import AccountCircle from 'material-ui-icons/AccountCircle'
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
 import Stepper, { Step, StepButton } from 'material-ui/Stepper'
 import Flatpickr from 'react-flatpickr'
 import '../../assets/styles/flatpickr.css'
 import { createRace } from '../../redux/CreateRace'
-import { fetchFriendsList } from '../../redux/Athlete'
 import SegmentsExplorer from './SegmentsExplorer/SegmentsExplorer'
 import './CreateRace.css'
-import * as _ from 'lodash'
+import strava from '../../app-config/strava'
+import { fetchFriendsList } from '../../redux/Athlete'
 
 const styles = theme => ({
     card: {
@@ -89,11 +91,8 @@ class CreateRace extends Component {
         }
     }
 
-    componentWillMount() {
-        const { athleteFriends, token } = this.props
-        if(_.isEmpty(athleteFriends)) {
-            this.props.getAthleteFriends(token)
-        }
+    componentDidMount() {
+        this.props.getFriendsList(this.props.athlete.id)
     }
 
     addSegment = (segment) => {
@@ -118,21 +117,23 @@ class CreateRace extends Component {
     }
 
     renderInfos = () => (
-        <Grid item xs={12} md={5} className={this.props.classes.grid}>
+        <Grid item xs={12} className={this.props.classes.grid}>
             <Card className={this.props.classes.card}>
                 <CardContent>
                     <Typography className={this.props.classes.title} color='textSecondary'>
                         Informations
                     </Typography>
-                    <TextField
-                        id='with-placeholder'
-                        label='Nom de la course'
-                        placeholder='Course'
-                        onChange={this.handleRaceChange('name')}
-                        className={this.props.classes.textField}
-                        margin='normal'
-                    />
-                    <div style={{ margin: '10px' }}>
+                    <Grid container>
+                        <Grid item xs={4}>
+                            <TextField
+                                id='with-placeholder'
+                                label='Nom de la course'
+                                placeholder='Course'
+                                onChange={this.handleRaceChange('name')}
+                                className={this.props.classes.textField}
+                                margin='normal'
+                            />
+                            <div style={{ margin: '10px' }}>
                                     <span style={{
                                         marginBottom: '5px',
                                         fontSize: '0.8rem',
@@ -140,16 +141,16 @@ class CreateRace extends Component {
                                     }}>
                                         Date
                                     </span>
-                        <br/>
-                        <Flatpickr value={this.state.date}
-                                   onChange={date => this.setState(prevState => ({
-                                       race: {
-                                           ...prevState.race,
-                                           date
-                                       }
-                                   }))}/>
-                    </div>
-                    <span>
+                                <br/>
+                                <Flatpickr value={this.state.date}
+                                           onChange={date => this.setState(prevState => ({
+                                               race: {
+                                                   ...prevState.race,
+                                                   date
+                                               }
+                                           }))}/>
+                            </div>
+                            <span>
                                     <Switch
                                         checked={this.state.race.isPrivate}
                                         onChange={this.handleRaceChange('isPrivate')}
@@ -161,6 +162,40 @@ class CreateRace extends Component {
                                     />
                                     Private Race
                                 </span>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Table className={this.props.classes.table}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Avatar</TableCell>
+                                        <TableCell>Nom</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.props.athleteFriends && this.props.athleteFriends.map(friend => (
+                                            <TableRow key={friend.id}>
+                                                <TableCell padding='none'>
+                                                    {friend.profile_medium !== strava.defaultAvatarUrl && (
+                                                        <Avatar alt={`${friend.firstname} ${friend.lastname}`}
+                                                                src={friend.profile_medium}/>
+                                                    )}
+                                                    {friend.profile_medium === strava.defaultAvatarUrl && (
+                                                        <IconButton
+                                                            aria-haspopup='true'
+                                                            color='inherit'
+                                                        >
+                                                            <AccountCircle/>
+                                                        </IconButton>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell>{friend.firstname}</TableCell>
+                                            </TableRow>
+                                        )
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </Grid>
+                    </Grid>
                 </CardContent>
             </Card>
         </Grid>
@@ -211,10 +246,8 @@ class CreateRace extends Component {
     )
 
     render() {
-        const { classes, saveRace, athleteFriends } = this.props
+        const { classes, saveRace } = this.props
         const { race: { segments, date }, activeStep } = this.state
-
-        console.log('+++++', athleteFriends)
 
         return (
             <div style={{ marginTop: '10px' }}>
@@ -279,15 +312,14 @@ class CreateRace extends Component {
 const mapStateToProps = state => {
     return {
         athlete: state.loginReducer.athlete,
-        token: state.loginReducer.token,
         athleteFriends: state.athleteReducer.friends,
-        // athleteStarredSegments: new SegmentsListToDisplay(state.athleteReducer.starredSegments).list
+        token: state.loginReducer.token,
     }
 }
 
 const mapDispatchToProps = dispatch => ({
     saveRace: data => dispatch(createRace(data)),
-    getAthleteFriends: (token) => dispatch(fetchFriendsList(token))
+    getFriendsList: athleteId => dispatch(fetchFriendsList(athleteId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CreateRace))

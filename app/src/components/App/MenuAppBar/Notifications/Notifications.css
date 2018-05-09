@@ -1,0 +1,36 @@
+.notificationsContainer {
+  position:         absolute;
+  right:            0;
+  background-color: white;
+  width:            350px;
+  max-width:        350px;
+  max-height:       300px;
+  min-height:       100px;
+  border:           1px solid lightgrey;
+  border-radius:    2px;
+  z-index:          100;
+  /*box-shadow: ;*/
+}
+
+.notificationContent {
+  font-size: 0.8em;
+  margin:    0 5px;
+}
+
+.notificationNothingToShow {
+  color:      rgba(0, 0, 0, 0.6);
+  margin-top: 30px;
+  text-align: center;
+}
+
+.notificationsContainer::after {
+  content:      "";
+  position:     absolute;
+  top:          -14px;
+  right:        15px;
+  color:        white;
+  margin-left:  -15px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: transparent transparent white transparent;
+}

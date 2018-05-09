@@ -6,8 +6,8 @@ export const fetchKoms = athleteId => dispatch => {
     })
 }
 
-export const fetchFriendsList = token => dispatch => {
-    Athlete.fetchFriendsList(token).then(friends => {
+export const fetchFriendsList = athleteId => dispatch => {
+    Athlete.fetchFriendsList(athleteId).then(friends => {
         dispatch(friendsFetched(friends))
     })
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withStyles } from 'material-ui/styles'
+import classNames from 'classnames'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
@@ -11,9 +12,11 @@ import AccountCircle from 'material-ui-icons/AccountCircle'
 import Hidden from 'material-ui/Hidden'
 import Button from 'material-ui/Button'
 import Avatar from 'material-ui/Avatar'
+import Icon from 'material-ui/Icon'
 import MenuDrawer from './MenuDrawer/MenuDrawer'
 import config from '../../../app-config'
 import strava from '../../../app-config/strava'
+import Notifications from './Notifications/Notifications.jsx'
 
 const styles = theme => ({
     root: {
@@ -38,9 +41,17 @@ const styles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
+        color: 'white',
+        borderRight: '1px solid white'
     },
     avatar: {
         margin: 10,
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    iconSmall: {
+        fontSize: 20,
     },
 })
 
@@ -87,6 +98,19 @@ class MenuAppBar extends React.Component {
                             </Typography>
                         </Link>
 
+                        {isAuthenticated && (
+                            <Link to='/friends-search'>
+                                <Button size='small' className={classes.button}>
+                                    <Icon className={classNames(classes.leftIcon, classes.iconSmall)}>
+                                        search
+                                    </Icon>
+                                    <Hidden smDown>
+                                        Find Friends
+                                    </Hidden>
+                                </Button>
+                            </Link>
+                        )}
+
                         <Hidden smDown>
                             {isAuthenticated && (
                                 <Link to='/create-race'>
@@ -96,6 +120,9 @@ class MenuAppBar extends React.Component {
                                 </Link>
                             )}
                         </Hidden>
+                        {isAuthenticated && (
+                            <Notifications/>
+                        )}
 
                         <Hidden smDown>
                             {isAuthenticated && (

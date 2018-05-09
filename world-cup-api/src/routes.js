@@ -1,18 +1,22 @@
 const strava = require('strava-v3')
 
 module.exports = {
-    createWorldCupApiRoutes: (app, raceDataProcessor, webhookEventsDataProcessor, sessionDao, athleteDao) => {
+    createWorldCupApiRoutes: (app, raceDataProcessor, webhookEventsDataProcessor, sessionDao, athleteDao, athleteDataProcessor, notificationDao) => {
         app.get('/token_exchange/:access_code', (req, res) => {
             strava.oauth.getToken(req.params.access_code, (err, payload) => {
                 const accessToken = payload.access_token
                 const athlete = payload.athlete
                 res.send({ accessToken, athlete })
             })
-        }).get('/friends-list/:token', (req, res) => {
-            strava.athlete.listFriends({ 'access_token': req.params.token }, (err, payload) => {
-                const friendsList = JSON.stringify(payload)
+        }).get('/friends-list/:athleteId', async (req, res) => {
+            try {
+                const { athleteId } = req.params
+                const friendsList = await athleteDao.getFriends(athleteId)
                 res.send(friendsList)
-            })
+            } catch (e) {
+                console.log(e)
+                res.sendStatus(500)
+            }
         }).get('/athlete-koms/:athleteId', (req, res) => {
             strava.athletes.listKoms({ id: req.params.athleteId }, (err, payload) => {
                 const komsList = JSON.stringify(payload)
@@ -23,6 +27,17 @@ module.exports = {
                 const starredSegments = JSON.stringify(payload)
                 res.send(starredSegments)
             })
+        }).get('/athletes-search/:name', async (req, res) => {
+            try {
+                const athletes = await athleteDao.search(req.params.name)
+                res.send(athletes)
+            } catch (e) {
+                console.error('Couldn\'t find athletes', e)
+                res.sendStatus(500)
+            }
+        }).post('/add-friend', (req, res) => {
+            athleteDataProcessor.addFriend(req.body)
+            res.sendStatus(200)
         }).post('/race', (req, res) => {
             raceDataProcessor.createRace(req.body, webhookEventsDataProcessor).then(() => {
                 res.sendStatus(200)
@@ -68,6 +83,19 @@ module.exports = {
             strava.segments.get({ id }, (err, payload) => {
                 res.send(JSON.stringify(payload))
             })
+        }).get('/notifications/:athleteId', async (req, res) => {
+            const { athleteId } = req.params
+            const notifications = await notificationDao.getForAthlete(athleteId)
+            res.send(notifications)
+        }).post('/accept-notification/:notificationId', async (req, res) => {
+            try {
+                const { notificationId } = req.params
+                await notificationDao.acceptNotification(notificationId)
+                res.sendStatus(200)
+            } catch (e) {
+                console.log(e)
+                res.sendStatus(500)
+            }
         })
     }
 }
