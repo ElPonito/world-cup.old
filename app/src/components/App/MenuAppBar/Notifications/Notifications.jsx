@@ -69,7 +69,6 @@ class Notifications extends Component {
                             <div className='notificationsContainer'>
                                 {
                                     notifications.map((notification, i) => {
-                                        console.log(notification)
                                         const Component = notificationComponentMap[notification.type](i, notification, classes)
                                         return <Component key={i}/>
                                     })
