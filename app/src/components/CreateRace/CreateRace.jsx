@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { withStyles } from 'material-ui/styles'
+import * as _ from 'lodash'
 import Grid from 'material-ui/Grid'
 import Card, { CardContent } from 'material-ui/Card'
 import Typography from 'material-ui/Typography'
@@ -10,7 +11,7 @@ import Switch from 'material-ui/Switch'
 import Button from 'material-ui/Button'
 import green from 'material-ui/colors/green'
 import Save from 'material-ui-icons/Save'
-import { Avatar, IconButton } from 'material-ui'
+import { Avatar, Checkbox, IconButton } from 'material-ui'
 import AccountCircle from 'material-ui-icons/AccountCircle'
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
 import Stepper, { Step, StepButton } from 'material-ui/Stepper'
@@ -79,7 +80,7 @@ class CreateRace extends Component {
             activeStep: 0,
             race: {
                 name: '',
-                date: new Date(),
+                date: this.computeStringDateFromDateObject(),
                 athletes: [props.athlete.id],
                 segments: [],
                 isPrivate: false
@@ -89,6 +90,14 @@ class CreateRace extends Component {
             0: this.renderInfos,
             1: this.renderSegments,
         }
+    }
+
+    computeStringDateFromDateObject(date = new Date()) {
+        const buildMonthAndDay = value => value > 9 ? value : `0${value}`
+        const year = date.getFullYear()
+        const month = date.getMonth()
+        const day = date.getDate()
+        return `${year}-${buildMonthAndDay(month + 1)}-${buildMonthAndDay(day)}T00:00:00.000Z`
     }
 
     componentDidMount() {
@@ -115,6 +124,15 @@ class CreateRace extends Component {
         const value = target.type === 'checkbox' ? target.checked : target.value
         this.setState(prevState => ({ race: { ...prevState.race, [name]: value } }))
     }
+
+    handleAthleteChange = id => () => this.setState(({ race }) => {
+        const { athletes } = race
+        const athleteIndex = athletes.find(elt => elt === id)
+        if(athleteIndex === undefined) {
+            return { race: { ...race, athletes: [...athletes, id] } }
+        }
+        return { race: { ...race, athletes: _.pull(athletes, id) } }
+    })
 
     renderInfos = () => (
         <Grid item xs={12} className={this.props.classes.grid}>
@@ -146,7 +164,7 @@ class CreateRace extends Component {
                                            onChange={date => this.setState(prevState => ({
                                                race: {
                                                    ...prevState.race,
-                                                   date
+                                                   date: this.computeStringDateFromDateObject(date[0])
                                                }
                                            }))}/>
                             </div>
@@ -167,30 +185,41 @@ class CreateRace extends Component {
                             <Table className={this.props.classes.table}>
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell padding='checkbox'>
+                                            {/*<Checkbox checked={this.state.race.athletes.length === this.props.athleteFriends.length + 1}/>*/}
+                                        </TableCell>
                                         <TableCell>Avatar</TableCell>
                                         <TableCell>Nom</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {this.props.athleteFriends && this.props.athleteFriends.map(friend => (
-                                            <TableRow key={friend.id}>
-                                                <TableCell padding='none'>
-                                                    {friend.profile_medium !== strava.defaultAvatarUrl && (
-                                                        <Avatar alt={`${friend.firstname} ${friend.lastname}`}
-                                                                src={friend.profile_medium}/>
-                                                    )}
-                                                    {friend.profile_medium === strava.defaultAvatarUrl && (
-                                                        <IconButton
-                                                            aria-haspopup='true'
-                                                            color='inherit'
-                                                        >
-                                                            <AccountCircle/>
-                                                        </IconButton>
-                                                    )}
-                                                </TableCell>
-                                                <TableCell>{friend.firstname}</TableCell>
-                                            </TableRow>
-                                        )
+                                    {this.props.athleteFriends && this.props.athleteFriends.map(friend => {
+                                            const isFriendInAthletes = this.state.race.athletes.find(elt => elt === friend.id) !== undefined
+                                            return (
+                                                <TableRow key={friend.id}>
+                                                    <TableCell padding='checkbox'>
+                                                        <Checkbox onChange={this.handleAthleteChange(friend.id)}
+                                                                  checked={isFriendInAthletes}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell padding='none'>
+                                                        {friend.profile_medium !== strava.defaultAvatarUrl && (
+                                                            <Avatar alt={`${friend.firstname} ${friend.lastname}`}
+                                                                    src={friend.profile_medium}/>
+                                                        )}
+                                                        {friend.profile_medium === strava.defaultAvatarUrl && (
+                                                            <IconButton
+                                                                aria-haspopup='true'
+                                                                color='inherit'
+                                                            >
+                                                                <AccountCircle/>
+                                                            </IconButton>
+                                                        )}
+                                                    </TableCell>
+                                                    <TableCell>{friend.firstname}</TableCell>
+                                                </TableRow>
+                                            )
+                                        }
                                     )}
                                 </TableBody>
                             </Table>

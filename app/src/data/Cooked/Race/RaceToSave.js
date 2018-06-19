@@ -4,7 +4,7 @@ export default class RaceToSave {
         this.date = formData.date
         this.owner = formData.owner
         this.athletes = formData.athletes
-        this.segments = formData.segments
+        this.segments = formData.segments.map(segment => segment.id)
         this.isPrivate = formData.isPrivate
     }
 }
