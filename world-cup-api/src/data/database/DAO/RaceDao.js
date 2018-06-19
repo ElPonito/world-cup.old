@@ -7,7 +7,7 @@ class RaceDao extends GenericDbDao {
     }
 
     getByAthleteIdAndDate(athleteId, raceDate) {
-        const filter = {raceAthletes: athleteId, raceDate}
+        const filter = { athletes: athleteId, date: raceDate }
         return this._accessCollection().find(filter).toArray().then(races => races.map(race => new Race(race)))
     }
 

@@ -38,7 +38,7 @@ module.exports = {
                 loader: 'file-loader?name=[name].[ext]'
             },
             {
-                test: /\.(ttf|eot|svg|png|woff)(\?[a-z0-9#=&.]+)?$/,
+                test: /\.(ttf|eot|svg|png|woff|jpg)(\?[a-z0-9#=&.]+)?$/,
                 loader: 'file-loader?name=[name].[ext]'
             }
         ]

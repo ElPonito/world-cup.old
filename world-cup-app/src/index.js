@@ -7,6 +7,7 @@ import store from './redux/store'
 import './assets/style/index.less'
 import './vendor/font-awesome/less/font-awesome.less'
 import './assets/style/component/flatPickr.less'
+import './assets/style/bootstrap-grid.min.css'
 
 render(
     <Provider store={store}>

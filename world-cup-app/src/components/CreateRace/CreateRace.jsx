@@ -1,129 +1,54 @@
 import { Component } from 'react'
-import { Button, Col, Form, FormFeedback, FormGroup, Input, Label, Row } from 'reactstrap'
-import * as _ from 'lodash'
-import Flatpickr from 'react-flatpickr'
-import Table from '../../UiComponents/Table'
-import './CreateRace.less'
-import { createStringDateFromDateObject } from '../../utils/dateAndTime'
-import '../../vendor/font-awesome/less/font-awesome.less'
+import { withStyles } from 'material-ui/styles'
+import Grid from 'material-ui/Grid'
+import Card, { CardContent } from 'material-ui/Card'
+import Typography from 'material-ui/Typography'
+import TextField from 'material-ui/TextField'
 
-export default class CreateRace extends Component {
-
-    constructor(props) {
-        super()
-        this.handleChange = this.handleChange.bind(this)
-        this.state = {
-            raceName: '',
-            raceDate: new Date().toISOString(),
-            stringDate: createStringDateFromDateObject(new Date()),
-            raceAthletes: [props.athlete.id],
-            raceSegments: [],
-            formValid: {
-                raceName: true
-            }
-        }
+const styles = theme => ({
+    card: {
+        minWidth: '100%',
+    },
+    title: {
+        marginBottom: 16,
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: '95%',
     }
+})
 
-    handleChange(event) {
-        this.setState({[event.target.name]: event.target.value})
-    }
-
-    onDatePickerChange = newDate => {
-        const stringDate = createStringDateFromDateObject(newDate)
-        this.setState({raceDate: new Date(newDate).toISOString(), stringDate})
-    }
-
-    handleAthletesSelect(event, athlete) {
-        const raceAthletes = this.state.raceAthletes
-        if (event.target.checked) {
-            raceAthletes.push(athlete.id)
-            this.setState({raceAthletes})
-        } else {
-            this.setState({
-                raceAthletes: _.without(raceAthletes, data)
-            })
-        }
-    }
-
-    handleSegmentsSelect(event, segment) {
-        const raceSegments = this.state.raceSegments
-        if (event.target.checked) {
-            raceSegments.push(segment.id)
-            this.setState({raceSegments})
-        } else {
-            this.setState({
-                raceAthletes: _.without(raceSegments, data)
-            })
-        }
-    }
-
-    createRace() {
-        if (this.isFormValid()) {
-            this.props.saveRace({...this.state, raceOwner: this.props.athlete.id, token: this.props.token})
-        }
-    }
-
-    isFormValid() {
-        const formValid = {}
-        let isValid = true
-        Object.keys(this.state.formValid).forEach(formKey => {
-            formValid[formKey] = !!this.state[formKey]
-            isValid = !!this.state[formKey] || isValid
-        })
-        this.setState({formValid})
-        return isValid
-    }
-
+class CreateRace extends Component {
     render() {
-        const friendsListTableData = {
-            config: {
-                avatar: '',
-                firstName: 'First Name',
-                lastName: 'Last Name'
-            }, data: this.props.athleteFriends
-        }
-
-        const segmentsListTableData = {
-            config: {
-                name: 'Segment Name'
-            }, data: this.props.athleteStarredSegments
-        }
-
+        const { classes } = this.props
         return (
-            <div>
-                <h1>Create Race</h1>
-                <Row>
-                    <Col md={3}>
-                        <h2>Race Information</h2>
-                        <Form>
-                            <FormGroup color={!this.state.formValid.raceName && 'danger'}>
-                                <Label for="race-name">Race Name</Label>
-                                <Input type="text" name="raceName" id="raceName" placeholder="Race Name"
-                                       value={this.state.raceName}
-                                       onChange={this.handleChange} size="sm"/>
-                                {!this.state.formValid.raceName && <FormFeedback>Race name is required!</FormFeedback>}
-                            </FormGroup>
-                            <FormGroup color={!this.state.formValid.raceDate && 'danger'}>
-                                <Label for="race-date">Race Date</Label><br/>
-                                <Flatpickr options={{
-                                    defaultDate: this.state.raceDate,
-                                    onChange: this.onDatePickerChange
-                                }}/>
-                            </FormGroup>
-                            <Button color="primary" onClick={this.createRace.bind(this)}>Create Race!</Button>
-                        </Form>
-                    </Col>
-
-                    <Col md={9}>
-                        <h2>Choose your segments</h2>
-                        <Table config={segmentsListTableData.config } data={segmentsListTableData.data}
-                               checkbox={true} handleSelect={this.handleSegmentsSelect.bind(this)}/>
-                        <h2>Invite friends</h2>
-                        <Table config={friendsListTableData.config } data={friendsListTableData.data} checkbox={true}
-                               handleSelect={this.handleAthletesSelect.bind(this)}/>
-                    </Col>
-                </Row>
+            <div className='row' style={{ marginTop: '10px' }}>
+                <Grid item xs={12} md={3}>
+                    <Card className={classes.card}>
+                        <CardContent>
+                            <Typography className={classes.title} color='textSecondary'>
+                                Informations
+                            </Typography>
+                            <TextField
+                                id='with-placeholder'
+                                label='Nom de la course'
+                                placeholder='Course'
+                                className={classes.textField}
+                                margin='normal'
+                            />
+                            <br/>
+                            TODO: DATE!!
+                        </CardContent>
+                    </Card>
+                </Grid>
             </div>
         )
     }
 }
+
+export default withStyles(styles)(CreateRace)
